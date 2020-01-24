@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd4663f4717a34499be07d682bb5d3e, type: 3}
+  m_Name: AttackPatternPreset
+  m_EditorClassIdentifier: 
+  presets:
+  - CharacterName: HairBand
+    DropOrder: 3
+    ColorLine: 1
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Junior
+    DropOrder: 1
+    ColorLine: 0
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Swimming
+    DropOrder: 0
+    ColorLine: 1
+    ColorOrder: 1
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Lunch
+    DropOrder: 5
+    ColorLine: 6
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Dog
+    DropOrder: 4
+    ColorLine: 5
+    ColorOrder: 1
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Haniwa
+    DropOrder: 7
+    ColorLine: 0
+    ColorOrder: 0
+    LiftingColorLine: 2
+    DirectionPattern: 00000000010000000000000000000000
+  - CharacterName: Glasses
+    DropOrder: 0
+    ColorLine: 0
+    ColorOrder: 1
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Robot
+    DropOrder: 7
+    ColorLine: 0
+    ColorOrder: 0
+    LiftingColorLine: 1
+    DirectionPattern: 01000000010000000100000001000000
+  - CharacterName: Lucky
+    DropOrder: 6
+    ColorLine: 7
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Mirror
+    DropOrder: 2
+    ColorLine: 1
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Microphone
+    DropOrder: 7
+    ColorLine: 4
+    ColorOrder: 0
+    LiftingColorLine: 3
+    DirectionPattern: 01000000010000000100000001000000
+  - CharacterName: Koara
+    DropOrder: 2
+    ColorLine: 0
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Facebook
+    DropOrder: 1
+    ColorLine: 3
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000
+  - CharacterName: Trans
+    DropOrder: 3
+    ColorLine: 2
+    ColorOrder: 0
+    LiftingColorLine: 0
+    DirectionPattern: 00000000000000000000000000000000

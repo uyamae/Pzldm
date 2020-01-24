@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: tex_battle
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 727d862042ea6714faeb1c56bc243643, type: 3}
+    - {fileID: 2800000, guid: 5f8f3dd55539ed14184ea24cca567504, type: 3}
+    - {fileID: 2800000, guid: 9da6dceb66e0d41439c31c59c081554b, type: 3}
+    - {fileID: 2800000, guid: 9fbed760519dcb5418c92bb04aa06ef9, type: 3}
+    - {fileID: 2800000, guid: 6b44428cd6f224647bd2f3ca709919de, type: 3}
+    - {fileID: 2800000, guid: 32ec5e99e2377d14a8d78b7e229162d5, type: 3}
+    - {fileID: 2800000, guid: 65e7ff48e981b7944b86a0920af5e0eb, type: 3}
+    - {fileID: 2800000, guid: 413c841d6ba789e40bb458a4e4aab2ba, type: 3}
+    - {fileID: 2800000, guid: 9f1a9b47041741b43893d0d32c18d0c4, type: 3}
+    - {fileID: 2800000, guid: 707580a6ec4bd3f4abf2198ae9def29d, type: 3}
+    - {fileID: 2800000, guid: aa1cc001e22964b4d948c8a48e87d6de, type: 3}
+    totalSpriteSurfaceArea: 69632
+    bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: c639ead14244c4bd0faeb3e9689d6a0c
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 727d862042ea6714faeb1c56bc243643, type: 3}
+  - {fileID: 21300000, guid: 9fbed760519dcb5418c92bb04aa06ef9, type: 3}
+  - {fileID: 21300000, guid: aa1cc001e22964b4d948c8a48e87d6de, type: 3}
+  - {fileID: 21300000, guid: 5f8f3dd55539ed14184ea24cca567504, type: 3}
+  - {fileID: 21300000, guid: 707580a6ec4bd3f4abf2198ae9def29d, type: 3}
+  - {fileID: 21300000, guid: 9f1a9b47041741b43893d0d32c18d0c4, type: 3}
+  - {fileID: 21300000, guid: 65e7ff48e981b7944b86a0920af5e0eb, type: 3}
+  - {fileID: 21300000, guid: 32ec5e99e2377d14a8d78b7e229162d5, type: 3}
+  - {fileID: 21300000, guid: 9da6dceb66e0d41439c31c59c081554b, type: 3}
+  - {fileID: 21300000, guid: 6b44428cd6f224647bd2f3ca709919de, type: 3}
+  - {fileID: 21300000, guid: 413c841d6ba789e40bb458a4e4aab2ba, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - l01
+  - l04
+  - spark1
+  - l02
+  - spark0
+  - wall
+  - s03
+  - s02
+  - l03
+  - s01
+  - s04
+  m_Tag: tex_battle
+  m_IsVariant: 0
