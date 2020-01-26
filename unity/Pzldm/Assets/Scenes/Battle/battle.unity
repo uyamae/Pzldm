@@ -559,8 +559,11 @@ MonoBehaviour:
   playFields:
   - {fileID: 539943053}
   - {fileID: 1365256328}
-  attackCount: []
+  attackCount:
+  - {fileID: 1077740531}
+  - {fileID: 1798860051}
   currentState: 0
+  useComPlayer: 1
 --- !u!4 &564669822
 Transform:
   m_ObjectHideFlags: 0
@@ -824,6 +827,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655703990}
   m_CullTransparentMesh: 0
+--- !u!114 &1077740531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5938778628827501984, guid: 81057f491d4f7a94cbc948bb835343f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5084662643508551717}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1166408733b8fa347b58c08f72765456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1365256328 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7772676596126117442, guid: f1eb015e3ffe8294ca735d0d876f41eb,
@@ -2427,6 +2442,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1798860051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5938778628827501984, guid: 81057f491d4f7a94cbc948bb835343f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 263877924}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1166408733b8fa347b58c08f72765456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1989285747
 GameObject:
   m_ObjectHideFlags: 0

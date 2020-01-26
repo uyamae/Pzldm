@@ -29,6 +29,22 @@ namespace Pzldm
         [SerializeField]
         private BattleState currentState;
 
+        private ComPlayer comPlayer;
+
+        [SerializeField]
+        private bool useComPlayer;
+        /// <summary>
+        /// COM プレイヤー
+        /// </summary>
+        public bool UseComPlayer
+        {
+            get { return useComPlayer;}
+            set
+            {
+                useComPlayer = value;
+            }
+        }
+
         void Start()
         {
             var states = new StateMachine<BattleState>.State[] {
@@ -47,6 +63,12 @@ namespace Pzldm
             };
             stateMachine = new StateMachine<BattleState>(states);
             stateMachine.StartState(BattleState.Init);
+
+            comPlayer = new DefaultComPlayer()
+            {
+                Self = playFields[0],
+                Opponent = playFields[1],
+            };
         }
 
         // Update is called once per frame
@@ -63,6 +85,8 @@ namespace Pzldm
                 p.IsStateManaged = true;
             }
             stateMachine.ChangeState(BattleState.Ready);
+
+            playFields[1].ComPlayer = UseComPlayer ? comPlayer : null;
         }
         private void UpdateReady()
         {

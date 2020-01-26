@@ -36,13 +36,25 @@ namespace Pzldm
         /// </summary>
         private TamaData[] nextTamaPair = new TamaData[2];
         /// <summary>
+        /// つぎのたま
+        /// </summary>
+        public TamaData[] NextTamaPair { get { return nextTamaPair; } }
+        /// <summary>
         /// 操作するたま
         /// </summary>
         private TamaData[] currentTamaPair = new TamaData[2];
         /// <summary>
+        /// 操作するたま
+        /// </summary>
+        public TamaData[] CurrentTamaPair { get { return currentTamaPair; } }
+        /// <summary>
         /// たまを置くフィールド
         /// </summary>
         private TamaData[,] tamaField;
+        /// <summary>
+        /// たまを置くフィールド
+        /// </summary>
+        public TamaData[,] TamaField { get { return tamaField; } }
         /// <summary>
         /// 1P or 2P
         /// </summary>
@@ -88,7 +100,7 @@ namespace Pzldm
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        private TamaData GetTamaFromField(int x, int y)
+        public TamaData GetTamaFromField(int x, int y)
         {
             if (x < 0 || x >= tamaField.GetLength(1) || y < 0 || y >= tamaField.GetLength(0))
             {
