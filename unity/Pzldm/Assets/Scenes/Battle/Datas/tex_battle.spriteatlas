@@ -41,35 +41,65 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 9f1a9b47041741b43893d0d32c18d0c4, type: 3}
     - {fileID: 2800000, guid: 707580a6ec4bd3f4abf2198ae9def29d, type: 3}
     - {fileID: 2800000, guid: aa1cc001e22964b4d948c8a48e87d6de, type: 3}
-    totalSpriteSurfaceArea: 69632
+    - {fileID: 2800000, guid: b82b4b41dde8ad340be5c1332f3967bc, type: 3}
+    - {fileID: 2800000, guid: 813e6b5ee07c3a248a2170a9bb204ace, type: 3}
+    - {fileID: 2800000, guid: 2afd28614bf810e4aadb6af5e2699894, type: 3}
+    - {fileID: 2800000, guid: e0c60c7f31bf0e14da9fbec9a7bf326a, type: 3}
+    - {fileID: 2800000, guid: 9180bd8f852b9bd4d9e7ab68093aa955, type: 3}
+    - {fileID: 2800000, guid: 714e29aa6920a2d409b2bc32f09168c3, type: 3}
+    - {fileID: 2800000, guid: 0ff2f4371d612fd40b2584998e290f42, type: 3}
+    - {fileID: 2800000, guid: 1d62293d64a7c344098e82ffcc6a116e, type: 3}
+    - {fileID: 2800000, guid: 37344224026f0124689c5557e8415572, type: 3}
+    - {fileID: 2800000, guid: cc3d2db31d203884e87c2b2f84e9d553, type: 3}
+    totalSpriteSurfaceArea: 90112
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: c639ead14244c4bd0faeb3e9689d6a0c
+      Hash: 863708a32a17a2e49c639498d535ca8c
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 727d862042ea6714faeb1c56bc243643, type: 3}
   - {fileID: 21300000, guid: 9fbed760519dcb5418c92bb04aa06ef9, type: 3}
   - {fileID: 21300000, guid: aa1cc001e22964b4d948c8a48e87d6de, type: 3}
+  - {fileID: 21300000, guid: b82b4b41dde8ad340be5c1332f3967bc, type: 3}
+  - {fileID: 21300000, guid: 2afd28614bf810e4aadb6af5e2699894, type: 3}
+  - {fileID: 21300000, guid: cc3d2db31d203884e87c2b2f84e9d553, type: 3}
+  - {fileID: 21300000, guid: 37344224026f0124689c5557e8415572, type: 3}
   - {fileID: 21300000, guid: 5f8f3dd55539ed14184ea24cca567504, type: 3}
   - {fileID: 21300000, guid: 707580a6ec4bd3f4abf2198ae9def29d, type: 3}
+  - {fileID: 21300000, guid: 0ff2f4371d612fd40b2584998e290f42, type: 3}
   - {fileID: 21300000, guid: 9f1a9b47041741b43893d0d32c18d0c4, type: 3}
   - {fileID: 21300000, guid: 65e7ff48e981b7944b86a0920af5e0eb, type: 3}
   - {fileID: 21300000, guid: 32ec5e99e2377d14a8d78b7e229162d5, type: 3}
+  - {fileID: 21300000, guid: 714e29aa6920a2d409b2bc32f09168c3, type: 3}
   - {fileID: 21300000, guid: 9da6dceb66e0d41439c31c59c081554b, type: 3}
   - {fileID: 21300000, guid: 6b44428cd6f224647bd2f3ca709919de, type: 3}
   - {fileID: 21300000, guid: 413c841d6ba789e40bb458a4e4aab2ba, type: 3}
+  - {fileID: 21300000, guid: 1d62293d64a7c344098e82ffcc6a116e, type: 3}
+  - {fileID: 21300000, guid: 813e6b5ee07c3a248a2170a9bb204ace, type: 3}
+  - {fileID: 21300000, guid: e0c60c7f31bf0e14da9fbec9a7bf326a, type: 3}
+  - {fileID: 21300000, guid: 9180bd8f852b9bd4d9e7ab68093aa955, type: 3}
   m_PackedSpriteNamesToIndex:
   - l01
   - l04
   - spark1
+  - n0
+  - n2
+  - n9
+  - n8
   - l02
   - spark0
+  - n6
   - wall
   - s03
   - s02
+  - n5
   - l03
   - s01
   - s04
+  - n7
+  - n1
+  - n3
+  - n4
   m_Tag: tex_battle
   m_IsVariant: 0

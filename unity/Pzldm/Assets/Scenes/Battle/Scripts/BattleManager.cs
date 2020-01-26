@@ -16,13 +16,18 @@ namespace Pzldm
     /// </summary>
     public class BattleManager : MonoBehaviour
     {
-        public PlayField[] playFields;
+        [SerializeField]
+        private PlayField[] playFields;
+
+        [SerializeField]
+        private NumberDisplay[] attackCount;
 
         // Start is called before the first frame update
 
         StateMachine<BattleState> stateMachine;
 
-        public BattleState currentState;
+        [SerializeField]
+        private BattleState currentState;
 
         void Start()
         {
@@ -80,6 +85,8 @@ namespace Pzldm
         }
         private void UpdatePlaying()
         {
+            // こうげきだま更新
+            UpdateAttackCount();
             // ゲームオーバー同期
             for (int i = 0; i < playFields.Length; ++i)
             {
@@ -132,6 +139,34 @@ namespace Pzldm
             }
             opponent.RecievedAttackCount += field.SendAttackCount;
             field.SendAttackCount = 0;
+        }
+        private void UpdateAttackCount()
+        {
+            UpdateAttackCount(playFields[0], playFields[1], attackCount[0]);            
+            UpdateAttackCount(playFields[1], playFields[0], attackCount[1]);            
+        }
+        /// <summary>
+        /// こうげきだま数更新
+        /// </summary>
+        /// <param name="p0">自分</param>
+        /// <param name="p1">相手</param>
+        /// <param name="n">自分の表示</param>
+        private void UpdateAttackCount(PlayField p0, PlayField p1, NumberDisplay n)
+        {
+            if (n == null || p0 == null) return;
+            int count = p0.SendAttackCount;
+            if (p1 != null)
+            {
+                count += p1.RecievedAttackCount;
+            }
+            if (n.Number < count)
+            {
+                ++n.Number;
+            }
+            else if (n.Number > count)
+            {
+                --n.Number;
+            }
         }
     }
 }
