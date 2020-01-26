@@ -5,21 +5,23 @@ using UnityEngine.InputSystem;
 
 namespace Pzldm
 {
-    public partial class PlayField 
+    /// <summary>
+    /// キー入力とビットフラグ順
+    /// </summary>
+    public enum KeyIndex
     {
-        public enum KeyIndex
-        {
-            Up,
-            Down,
-            Left,
-            Right,
-            A,
-            B,
-            Start,
+        Up,
+        Down,
+        Left,
+        Right,
+        A,
+        B,
+        Start,
 
-            Count,
-        }
-
+        Count,
+    }
+    public partial class PlayField
+    {
         /// <summary>
         /// キーリピート開始フレーム数
         /// </summary>
@@ -74,6 +76,11 @@ namespace Pzldm
         /// キーリピートのフレーム
         /// </summary>
         private int[] repeatFrames = new int[(int)KeyIndex.Count];
+
+        /// <summary>
+        /// 操作用COM
+        /// </summary>
+        public IInput ComPlayer{ get; set; }
 
         /// <summary>
         /// 入力アクションを初期化
@@ -241,6 +248,12 @@ namespace Pzldm
         }
         private uint GenerateBits()
         {
+            // ComPlayer が設定されていたらそちらに任せる
+            if (ComPlayer != null)
+            {
+                return ComPlayer.GenerateBits();
+            }
+
             uint bits = 0;
             Vector2 v = inputDpad.ReadValue<Vector2>();
             if (v.x < 0)
