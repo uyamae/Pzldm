@@ -559,7 +559,7 @@ MonoBehaviour:
   playFields:
   - {fileID: 539943053}
   - {fileID: 1365256328}
-  attackCount:
+  attackCounts:
   - {fileID: 1077740531}
   - {fileID: 1798860051}
   currentState: 0

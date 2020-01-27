@@ -20,7 +20,7 @@ namespace Pzldm
         private PlayField[] playFields;
 
         [SerializeField]
-        private NumberDisplay[] attackCount;
+        private NumberDisplay[] attackCounts;
 
         // Start is called before the first frame update
 
@@ -105,6 +105,11 @@ namespace Pzldm
                     p.IsReadyToStart = true;
                 }
             }
+            // こうげきだま表示をリセット
+            foreach (var n in attackCounts)
+            {
+                n.Number = 0;
+            }
             stateMachine.ChangeState(BattleState.Playing);
         }
         private void UpdatePlaying()
@@ -166,8 +171,8 @@ namespace Pzldm
         }
         private void UpdateAttackCount()
         {
-            UpdateAttackCount(playFields[0], playFields[1], attackCount[0]);            
-            UpdateAttackCount(playFields[1], playFields[0], attackCount[1]);            
+            UpdateAttackCount(playFields[0], playFields[1], attackCounts[0]);            
+            UpdateAttackCount(playFields[1], playFields[0], attackCounts[1]);            
         }
         /// <summary>
         /// こうげきだま数更新
