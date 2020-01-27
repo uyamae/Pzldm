@@ -63,11 +63,11 @@ namespace Pzldm
         /// </summary>
         private void StateDroppingTamaUpdate()
         {
-            if (tamaPutWait > 0)
-            {
-                --tamaPutWait;
-                return;
-            }
+            //if (tamaPutWait > 0)
+            //{
+            //    --tamaPutWait;
+            //    return;
+            //}
             // フィールドのたま落下処理
             if (DropTamaInFIeld())
             {

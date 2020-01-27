@@ -35,13 +35,6 @@ namespace Pzldm
             ProcessRotate();
             // 落下チェック
             ProcessTamaFall();
-
-
-            //// 仮操作
-            //if (CheckRepeatedKey(KeyIndex.Up))
-            //{
-            //    MoveTamaPairUp(currentTamaPair[0], currentTamaPair[1]);
-            //}
         }
         private void StateControlTamaLeave()
         {
