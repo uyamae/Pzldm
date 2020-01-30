@@ -563,7 +563,7 @@ MonoBehaviour:
   - {fileID: 1077740531}
   - {fileID: 1798860051}
   currentState: 0
-  useComPlayer: 1
+  useComPlayer: 0
 --- !u!4 &564669822
 Transform:
   m_ObjectHideFlags: 0

@@ -79,14 +79,28 @@ namespace Pzldm
         }
         private void UpdateInit()
         {
-            foreach (var p in playFields)
+            var mgr = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
+            // 設定反映
+            for (int i = 0; i < playFields.Length; ++i)
             {
+                var p = playFields[i];
                 if (p == null) continue;
                 p.IsStateManaged = true;
+                if (mgr.AttackPatterns[i] != null)
+                {
+                    playFields[(i + 1) % playFields.Length].OpponentAttackPattern = mgr.AttackPatterns[i];
+                }
             }
-            stateMachine.ChangeState(BattleState.Ready);
+            if (mgr.PlayingMode == PlayingModeType.SinglePlay)
+            {
+                playFields[1].ComPlayer = comPlayer;
+            }
+            if (UseComPlayer)
+            {
+                playFields[1].ComPlayer = comPlayer;
+            }
 
-            playFields[1].ComPlayer = UseComPlayer ? comPlayer : null;
+            stateMachine.ChangeState(BattleState.Ready);
         }
         private void UpdateReady()
         {

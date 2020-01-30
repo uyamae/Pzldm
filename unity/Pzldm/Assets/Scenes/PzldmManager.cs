@@ -6,6 +6,20 @@ using UnityEngine.SceneManagement;
 namespace Pzldm
 {
     /// <summary>
+    /// 対戦モード
+    /// </summary>
+    public enum PlayingModeType
+    {
+        /// <summary>
+        /// ひとりプレイ
+        /// </summary>
+        SinglePlay,
+        /// <summary>
+        /// ２人対戦プレイ
+        /// </summary>
+        VirsusPlay,
+    }
+    /// <summary>
     /// 常駐して管理
     /// </summary>
     public class PzldmManager : MonoBehaviour
@@ -21,9 +35,36 @@ namespace Pzldm
 
         [SerializeField]
         private AttackPatternData[] selectedPatterns;
+        /// <summary>
+        /// 選択されたこうげきだまパターンを設定
+        /// </summary>
+        /// <param name="playerNo"></param>
+        /// <param name="data"></param>
+        public void SetPlayerAttackPattern(int playerNo, AttackPatternData data)
+        {
+            if (playerNo < 0 || playerNo >= selectedPatterns.Length) return;
+
+            selectedPatterns[playerNo] = data;
+        }
 
         [SerializeField]
         private AttackPatternData[] attackPatterns;
+
+        /// <summary>
+        /// こうげきだまパターン配列
+        /// </summary>
+        public AttackPatternData[] AttackPatterns { get { return attackPatterns; } }
+
+        [SerializeField]
+        private PlayingModeType playingMode;
+        /// <summary>
+        /// プレイモード
+        /// </summary>
+        public PlayingModeType PlayingMode
+        {
+            get { return playingMode; }
+            set { playingMode = value; }
+        }
 
         // Start is called before the first frame update
         void Start()

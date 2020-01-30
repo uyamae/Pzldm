@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccada83f21e45644a11d58d98c44c32, type: 3}
   m_Name: 14_RI
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: Trans
   attackDirectionPattern: 
   dropAttackTamaPattern: []
   liftAttackTamaPattern: []
