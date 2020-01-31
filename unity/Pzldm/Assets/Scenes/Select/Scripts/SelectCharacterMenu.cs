@@ -53,5 +53,10 @@ namespace Pzldm
         {
 
         }
+
+        private void OnEnable()
+        {
+            GetComponentInChildren<Selectable>(true).Select();
+        }
     }
 }

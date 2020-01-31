@@ -136,7 +136,11 @@ namespace Pzldm
             for (int i = 0; i < mgr.AttackPatterns.Length; ++i)
             {
                 int index = i;
-                selectCharacterMenu.Add(mgr.AttackPatterns[i], () => CallbackSelectCharacter(index));
+                var panel = selectCharacterMenu.Add(mgr.AttackPatterns[i], () => CallbackSelectCharacter(index));
+                if (i == 0)
+                {
+                    panel.GetComponentInChildren<Selectable>(true).Select();
+                }
             }
         }
         private void SetCharacterSelectMenuTitleText()
