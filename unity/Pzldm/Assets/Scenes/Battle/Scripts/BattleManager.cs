@@ -1,15 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Pzldm
 {
     public enum BattleState
     {
+        /// <summary>
+        /// 初期化
+        /// </summary>
         Init,
+        /// <summary>
+        /// 試合開始
+        /// </summary>
         Ready,
+        /// <summary>
+        /// 試合中
+        /// </summary>
         Playing,
+        /// <summary>
+        /// 試合終了
+        /// </summary>
         GameOver,
+        /// <summary>
+        /// 続行確認
+        /// </summary>
+        AskContinue,
     }
     /// <summary>
     /// 対戦を管理するクラス
@@ -33,6 +50,9 @@ namespace Pzldm
 
         [SerializeField]
         private bool useComPlayer;
+
+        [SerializeField]
+        private GameOverScreen gameOverScreen;
         /// <summary>
         /// COM プレイヤー
         /// </summary>
@@ -60,6 +80,12 @@ namespace Pzldm
                 new StateMachine<BattleState>.State() {
                     Update = UpdateGameOver,
                 },
+                new StateMachine<BattleState>.State()
+                {
+                    Enter = EnterAskContinue,
+                    Update = UpdateAskContinue,
+                    Leave = LeaveAskContinue,
+                }
             };
             stateMachine = new StateMachine<BattleState>(states);
             stateMachine.StartState(BattleState.Init);
@@ -77,6 +103,7 @@ namespace Pzldm
             stateMachine.UpdateState();
             currentState = stateMachine.CurrentState;
         }
+        // 初期化
         private void UpdateInit()
         {
             var mgr = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
@@ -102,6 +129,7 @@ namespace Pzldm
 
             stateMachine.ChangeState(BattleState.Ready);
         }
+        // 試合開始同期
         private void UpdateReady()
         {
             foreach (var p in playFields)
@@ -126,6 +154,7 @@ namespace Pzldm
             }
             stateMachine.ChangeState(BattleState.Playing);
         }
+        // 試合中
         private void UpdatePlaying()
         {
             // こうげきだま更新
@@ -147,8 +176,10 @@ namespace Pzldm
                 }
             }
         }
+        // ゲームオーバー演出同期
         private void UpdateGameOver()
         {
+            // ゲームオーバー演出待ち
             foreach (var p in playFields)
             {
                 if (p == null) return;
@@ -156,14 +187,35 @@ namespace Pzldm
                 if (p.CurrentState != PlayingState.AskContinue) return;
             }
             // ここにたどり着いたら全部がAskContinue
-            foreach (var p in playFields)
+            stateMachine.ChangeState(BattleState.AskContinue);
+        }
+        private void EnterAskContinue()
+        {
+            gameOverScreen.StartAskContinue();
+        }
+        private void UpdateAskContinue()
+        {
+            if (gameOverScreen.Result == GameOverScreen.ResultType.Continue)
             {
-                if (p != null && p.gameObject.activeInHierarchy)
+                // 続行、全体をReady に
+                foreach (var p in playFields)
                 {
-                    p.ChangeState(PlayingState.Ready);
+                    if (p != null && p.gameObject.activeInHierarchy)
+                    {
+                        p.ChangeState(PlayingState.Ready);
+                    }
                 }
+                stateMachine.ChangeState(BattleState.Ready);
             }
-            stateMachine.ChangeState(BattleState.Ready);
+            else if (gameOverScreen.Result == GameOverScreen.ResultType.Exit)
+            {
+                // 終了、シーン遷移
+                SceneManager.LoadScene("select");
+            }
+        }
+        private void LeaveAskContinue()
+        {
+            gameOverScreen.IsActive = false;
         }
         /// <summary>
         /// 確定したこうげきだまを送る

@@ -134,7 +134,11 @@ namespace Pzldm
                     Leave = StateGameOverLeave,
                 },
                 // 続行確認
-                new StateMachine<PlayingState>.State() { },
+                new StateMachine<PlayingState>.State() {
+                    //Enter = StateAskContinueEnter,
+                    //Update = StateAskContinueUpdate,
+                    //Leave = StateAskContinueLeave,
+                },
             };
             stateMachine = new StateMachine<PlayingState>(states);
 
