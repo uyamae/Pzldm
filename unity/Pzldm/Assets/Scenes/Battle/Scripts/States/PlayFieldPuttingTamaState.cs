@@ -7,6 +7,16 @@ namespace Pzldm
     public partial class PlayField
     {
         /// <summary>
+        /// 連鎖数表示
+        /// </summary>
+        [SerializeField]
+        private ChainCount chainCounter;
+        /// <summary>
+        /// 連鎖数
+        /// </summary>
+        private int chainCount;
+
+        /// <summary>
         /// 設置されたたまの連結確認ワーク領域
         /// </summary>
         private int[,] tamaFieldCheck;
@@ -39,8 +49,9 @@ namespace Pzldm
             --tamaPutWait;
             if (tamaPutWait <= 0)
             {
-                PutCurrentTamaToField();
-                ChangeState(PlayingState.DroppingTama);
+                //PutCurrentTamaToField();
+                //ChangeState(PlayingState.DroppingTama);
+                ChangeStateAfterPutting();
             }
         }
         /// <summary>
@@ -55,27 +66,39 @@ namespace Pzldm
         /// </summary>
         private void StateDroppingTamaEnter()
         {
+            // 操作中のたまがあればフィールドに移す
+            PutCurrentTamaToField();
             // 設置ウェイト
-            tamaPutWait = setting.tamaPutWait;
+            //tamaPutWait = setting.tamaPutWait;
+            tamaPutWait = 0;
         }
         /// <summary>
         /// たま落下中の更新処理
         /// </summary>
         private void StateDroppingTamaUpdate()
         {
-            //if (tamaPutWait > 0)
-            //{
-            //    --tamaPutWait;
-            //    return;
-            //}
+            if (tamaPutWait > 0)
+            {
+                --tamaPutWait;
+                return;
+            }
             // フィールドのたま落下処理
             if (DropTamaInFIeld())
             {
                 return;
             }
+            // 設置処理
+            ChangeState(PlayingState.PuttingTama);
+        }
+        private void ChangeStateAfterPutting()
+        {
             // たま消去チェック
             if (CheckTamaRemoving())
             {
+                // 連鎖数カウントアップ
+                ++chainCount;
+                chainCounter?.StartDisplay(1, chainCount);
+
                 ChangeState(PlayingState.RemovingTama);
             }
             else
@@ -122,12 +145,15 @@ namespace Pzldm
         /// <summary>
         /// 設置チェック
         /// </summary>
-        /// <returns>設置完了したらtrue</returns>
         private void PutCurrentTamaToField()
         {
             for (int n = 0; n < currentTamaPair.Length; ++n)
             {
-                PutTamaToField(currentTamaPair[n]);
+                if (currentTamaPair[n] != null)
+                {
+                    PutTamaToField(currentTamaPair[n]);
+                    currentTamaPair[n] = null;
+                }
             }
         }
         /// <summary>

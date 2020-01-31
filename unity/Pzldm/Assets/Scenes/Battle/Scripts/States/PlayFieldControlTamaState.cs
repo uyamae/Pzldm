@@ -24,6 +24,8 @@ namespace Pzldm
             SetTamaPosition(currentTamaPair[1], setting.startTamaPosition.x, setting.startTamaPosition.y + 1);
             // つぎのたまを生成する
             GenerateNextTamaPair();
+            // 連鎖数をリセット
+            chainCount = 0;
             // 自由落下カウンターをリセット
             tamaFallFrameCount = TamaFallFrame;
         }
@@ -177,8 +179,8 @@ namespace Pzldm
             // 落下処理
             if (!MoveTamaPairDown(currentTamaPair[0], currentTamaPair[1]))
             {
-                // 落下できなかった場合は設置処理に遷移する
-                ChangeState(PlayingState.PuttingTama);
+                // 落下できなかった場合は落下処理に遷移する
+                ChangeState(PlayingState.DroppingTama);
             }
         }
         /// <summary>
