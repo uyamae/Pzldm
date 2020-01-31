@@ -21,7 +21,7 @@ namespace Pzldm
         /// <summary>
         /// 表示するイメージ
         /// </summary>
-        private Image[,] digits;
+        private SpriteRenderer[,] digits;
         /// <summary>
         /// 表示する数を設定する
         /// </summary>
@@ -63,8 +63,8 @@ namespace Pzldm
         // Start is called before the first frame update
         void Start()
         {
-            digits = new Image[2,2];
-            var images = GetComponentsInChildren<Image>(true);
+            digits = new SpriteRenderer[2,2];
+            var images = GetComponentsInChildren<SpriteRenderer>(true);
             foreach (var image in images)
             {
                 var m = Regex.Match(image.name, @"^d(?<N>\d)_(?<D>\d)$");
