@@ -65,11 +65,13 @@ namespace Pzldm
             get { return playingMode; }
             set { playingMode = value; }
         }
-
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
         // Start is called before the first frame update
         void Start()
         {
-            DontDestroyOnLoad(this);
             stateMachine = new StateMachine<GameMode>(
                 new StateMachine<GameMode>.State[] {
                     // Boot

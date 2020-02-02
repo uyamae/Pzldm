@@ -196,3 +196,5 @@ MonoBehaviour:
   - Position: {x: 5, y: 14}
     Color: 1
   liftAttackTamaPattern: []
+  sampleCount: 12
+  sampleSkipRows: 0

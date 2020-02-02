@@ -4,21 +4,30 @@ using UnityEngine;
 
 namespace Pzldm
 {
+    public interface IRowColInfo
+    {
+        int ColumnsCount { get; }
+        int RowsCount { get; }
+        int PatternRowsCount { get; }
+    }
     [CreateAssetMenu(menuName = "Pzldm/PlayFieldSetting")]
-    public class PlayFieldSetting : ScriptableObject
+    public class PlayFieldSetting : ScriptableObject, IRowColInfo
     {
         /// <summary>
         /// フィールドの幅
         /// </summary>
         public int columnsCount;
+        public int ColumnsCount { get { return columnsCount; } }
         /// <summary>
         /// フィールドの高さ
         /// </summary>
         public int rowsCount;
+        public int RowsCount { get { return rowsCount; } }
         /// <summary>
         /// こうげきだまがキャラごとパターンで降ってくる高さ
         /// </summary>
         public int patternRowsCount;
+        public int PatternRowsCount { get { return patternRowsCount; } }
         /// <summary>
         /// たま１つ動かすときの移動値
         /// </summary>

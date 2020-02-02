@@ -10,17 +10,19 @@ namespace Pzldm
         private AttackEditorSetting setting;
 
         //private PlayFieldSetting playFieldSetting;
-        class RowCol
+        class RowCol : IRowColInfo
         {
-            public int columnsCount;
-            public int rowsCount;
-            public int patternRowsCount;
+            public int ColumnsCount { set; get; }
+            public int RowsCount { set; get; }
+            public int PatternRowsCount { set; get; }
         }
         private RowCol playFieldSetting;
 
         private Texture2D[] tamaSprites;
 
         private AttackPatternData pattern;
+
+        private Texture attackSample;
 
         private AttackPatternPreset preset;
 
@@ -36,9 +38,9 @@ namespace Pzldm
         private bool usePreset;
         private int presetIndex;
 
-        private int ColumnsCount { get { return (playFieldSetting == null) ? 6 : playFieldSetting.columnsCount; } }
-        private int RowsCount { get { return (playFieldSetting == null) ? 15 : playFieldSetting.rowsCount; } }
-        private int PatternRowsCount { get { return (playFieldSetting == null) ? 10 : playFieldSetting.patternRowsCount; } }
+        private int ColumnsCount { get { return (playFieldSetting == null) ? 6 : playFieldSetting.ColumnsCount; } }
+        private int RowsCount { get { return (playFieldSetting == null) ? 15 : playFieldSetting.RowsCount; } }
+        private int PatternRowsCount { get { return (playFieldSetting == null) ? 10 : playFieldSetting.PatternRowsCount; } }
 
         [MenuItem("Window/Pzldm/AttackEditor")]
         public static void Create()
@@ -48,6 +50,11 @@ namespace Pzldm
         private void Awake()
         {
             setting = Resources.Load<AttackEditorSetting>("AttackEditorSetting");
+            playFieldSetting = new RowCol() { 
+                ColumnsCount = 6,
+                RowsCount = 15,
+                PatternRowsCount = 10,
+            }; 
             //playFieldSetting = AssetDatabase.LoadAssetAtPath<PlayFieldSetting>("Assets/Scenes/Battle/Scripts/Setting.asset");
 
             tamaSprites = new Texture2D[4];
@@ -104,6 +111,14 @@ namespace Pzldm
             {
                 assetPath = AssetDatabase.GetAssetPath(p);
                 pattern = p;
+                GenerateAttackSampleTexture();
+            }
+        }
+        private void GenerateAttackSampleTexture()
+        {
+            if (pattern != null)
+            {
+                attackSample = AttackPatternSampleGenerator.Generate(pattern, 80, 80, playFieldSetting);
             }
         }
         /// <summary>
@@ -223,7 +238,7 @@ namespace Pzldm
         /// <summary>
         /// こうげきだまパターンを描画
         /// </summary>
-        private void DrawDropPattern(float ox, float oy, float size, string label)
+        private Vector2 DrawDropPattern(float ox, float oy, float size, string label)
         {
             GUIStyle style = new GUIStyle();
             style.alignment = TextAnchor.MiddleCenter;
@@ -245,6 +260,7 @@ namespace Pzldm
                 EditorGUI.DrawRect(rect, color);
                 EditorGUI.LabelField(rect, (i + 1).ToString(), style);
             }
+            return new Vector2(ox, oy + size * RowsCount);
         }
         private void DrawLiftPattern(float ox, float oy, float size, string label)
         {
@@ -269,13 +285,63 @@ namespace Pzldm
                 EditorGUI.LabelField(rect, (i + 1).ToString(), style);
             }
         }
+        private void DrawAttackSample(float ox, float oy, float size)
+        {
+            GUIStyle style = new GUIStyle();
+            style.alignment = TextAnchor.MiddleCenter;
+            // こうげきだまサンプル数設定
+            var px = ox;
+            {
+                var w = size * (ColumnsCount - 2);
+                var rect = new Rect(px, oy, w, size);
+                EditorGUI.LabelField(rect, "こうげきだまサンプル数", style);
+                px += w;
+            }
+            {
+                var w = size * 2;
+                var rect = new Rect(px + 1, oy + 1, w - 2, size - 2);
+                var count = EditorGUI.IntField(rect, pattern.SampleCount);
+                if (count != pattern.SampleCount)
+                {
+                    pattern.SampleCount = count;
+                    GenerateAttackSampleTexture();
+                }
+            }
+            oy += size;
+            // サンプル時のスキップ段数指定
+            px = ox;
+            {
+                var w = size * (ColumnsCount - 2);
+                var rect = new Rect(px, oy, w, size);
+                EditorGUI.LabelField(rect, "スキップ段数", style);
+                px += w;
+            }
+            {
+                var w = size * 2;
+                var rect = new Rect(px + 1, oy + 1, w - 2, size - 2);
+                var count = EditorGUI.IntField(rect, pattern.SampleSkipRows);
+                if (count != pattern.SampleSkipRows)
+                {
+                    pattern.SampleSkipRows = count;
+                    GenerateAttackSampleTexture();
+                }
+            }
+            oy += size;
+            // こうげきだまサンプル画像表示
+            if (attackSample != null)
+            {
+                px = ox + (size * ColumnsCount - attackSample.width) / 2;
+                EditorGUI.DrawPreviewTexture(new Rect(px, oy, attackSample.width, attackSample.height), attackSample);
+            }
+        }
         private void DrawAttackPattern()
         {
             if (pattern == null) return;
             
             Rect rect = EditorGUILayout.GetControlRect();
             float size = 24;
-            DrawDropPattern(rect.x, rect.y, size, "落下パターン");
+            var pos = DrawDropPattern(rect.x, rect.y, size, "落下パターン");
+            DrawAttackSample(pos.x, pos.y, size);
             if (pattern.HasLifting)
             {
                 DrawLiftPattern(rect.x + size * (ColumnsCount + 1), rect.y, size, "せり上げパターン");

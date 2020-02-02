@@ -112,6 +112,27 @@ namespace Pzldm
         /// </summary>
         public AttackTamaData[] LiftAttackTamaPattern { get { return liftAttackTamaPattern; } }
 
+        [SerializeField]
+        private int sampleCount;
+        /// <summary>
+        /// サンプル出力時にいくつまで参照するか
+        /// </summary>
+        public int SampleCount
+        {
+            get { return sampleCount; }
+            set { sampleCount = value; }
+        }
+        [SerializeField]
+        private int sampleSkipRows;
+        /// <summary>
+        /// サンプル出力時に省略する行(段)
+        /// </summary>
+        public int SampleSkipRows
+        {
+            get { return sampleSkipRows; }
+            set { sampleSkipRows = value; }
+        }
+
         /// <summary>
         /// 色の順序
         /// </summary>
@@ -251,6 +272,13 @@ namespace Pzldm
                 ++y;
             }
         }
+        /// <summary>
+        /// 左下から斜めに降るパターンの順序を生成
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <param name="rows"></param>
+        /// <param name="patternRows"></param>
+        /// <returns></returns>
         public static AttackTamaData[] GenerateDropOrderLeftDownStart(int columns, int rows, int patternRows)
         {
             AttackTamaData[] datas = new AttackTamaData[columns * rows];

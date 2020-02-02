@@ -8,6 +8,9 @@ namespace Pzldm
     public class CharacterPanel : MonoBehaviour
     {
         private Text text;
+        private Image image;
+        [SerializeField]
+        private PlayFieldSetting setting;
         /// <summary>
         /// キャラクター名
         /// </summary>
@@ -24,7 +27,8 @@ namespace Pzldm
         }
         private void Awake()
         {
-            text = GetComponentInChildren<Text>();
+            text = GetComponentInChildren<Text>(true);
+            image = transform.Find("Button/Image")?.GetComponentInChildren<Image>(true);
         }
         // Start is called before the first frame update
         void Start()
@@ -36,6 +40,19 @@ namespace Pzldm
         void Update()
         {
 
+        }
+        /// <summary>
+        /// こうげきだまパターンデータから設定する
+        /// </summary>
+        /// <param name="data"></param>
+        public void SetAttackPattern(AttackPatternData data)
+        {
+            CharacterName = data.CharacterName;
+            if (image != null)
+            {
+                var texture = AttackPatternSampleGenerator.Generate(data, 80, 80, setting);
+                image.sprite = Sprite.Create(texture, new Rect(0, 0, 80, 80), Vector2.zero);
+            }
         }
     }
 }

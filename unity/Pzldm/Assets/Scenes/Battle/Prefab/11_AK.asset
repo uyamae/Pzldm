@@ -484,3 +484,5 @@ MonoBehaviour:
     Color: 3
   - Position: {x: 5, y: 23}
     Color: 3
+  sampleCount: 0
+  sampleSkipRows: 0

@@ -9,7 +9,7 @@ namespace Pzldm
     /// </summary>
     public enum ColorType
     {
-        Red, Blue, Green, Yellow
+        Red, Blue, Green, Yellow, Invalid
     }
     /// <summary>
     /// たまの状態

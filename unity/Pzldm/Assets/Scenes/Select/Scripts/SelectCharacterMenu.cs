@@ -38,11 +38,10 @@ namespace Pzldm
 
         public CharacterPanel Add(AttackPatternData data, UnityAction listener)
         {
-            var n = data ;
             var panel = GameObject.Instantiate<CharacterPanel>(characterPanelPrefab);
-            panel.name = n.CharacterName;
-            panel.CharacterName = n.CharacterName;
+            panel.name = data.CharacterName;
             panel.transform.SetParent(grid.transform);
+            panel.SetAttackPattern(data);
             var button = panel.GetComponentInChildren<Button>();
             button.onClick.AddListener(listener);
             return panel;
@@ -56,7 +55,7 @@ namespace Pzldm
 
         private void OnEnable()
         {
-            GetComponentInChildren<Selectable>(true).Select();
+            GetComponentInChildren<Selectable>(true)?.Select();
         }
     }
 }
