@@ -46,6 +46,16 @@ namespace Pzldm
 
             selectedPatterns[playerNo] = data;
         }
+        /// <summary>
+        /// 選択されたこうげきだまパターンを取得
+        /// </summary>
+        /// <param name="playerNo"></param>
+        /// <returns></returns>
+        public AttackPatternData GetPlayerAttackPattern(int playerNo)
+        {
+            if (playerNo < 0 || playerNo >= selectedPatterns.Length) return null;
+            return selectedPatterns[playerNo];
+        }
 
         [SerializeField]
         private AttackPatternData[] attackPatterns;

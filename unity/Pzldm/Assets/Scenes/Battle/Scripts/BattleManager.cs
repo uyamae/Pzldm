@@ -144,9 +144,11 @@ namespace Pzldm
                 var p = playFields[i];
                 if (p == null) continue;
                 p.IsStateManaged = true;
-                if (mgr?.AttackPatterns[i] != null)
+                int oppo = (i + 1) % playFields.Length;
+                var a = mgr?.GetPlayerAttackPattern(oppo);
+                if (a != null)
                 {
-                    playFields[(i + 1) % playFields.Length].OpponentAttackPattern = mgr.AttackPatterns[i];
+                    playFields[i].OpponentAttackPattern = a;
                 }
             }
             if (mgr?.PlayingMode == PlayingModeType.SinglePlay)
