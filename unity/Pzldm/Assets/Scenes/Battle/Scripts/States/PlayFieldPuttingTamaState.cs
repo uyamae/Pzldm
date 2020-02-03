@@ -322,7 +322,7 @@ namespace Pzldm
                         // 消える奴は消去エフェクトを表示しておく
                         var data = GetTamaFromField(x, y);
                         data.Spark.enabled = true;
-                        data.Spark.sprite = tamaSparkSprites[0];
+                        data.Spark.sprite = tamaGenerator.GetTamaSparkSprite(0);
                         ++removedCount;
                     }
                 }

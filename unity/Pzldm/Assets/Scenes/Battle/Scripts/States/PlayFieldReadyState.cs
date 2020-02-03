@@ -17,7 +17,7 @@ namespace Pzldm
         private void StateReadyEnter()
         {
             // たま生成乱数リセット
-            ResetTamaRandom();
+            tamaGenerator.ResetTamaRandom();
             // つぎのたま生成
             GenerateNextTamaPair();
             // たま自由落下フレームをリセット

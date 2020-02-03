@@ -5,8 +5,11 @@ using System.Linq;
 
 namespace Pzldm
 {
-
-    public partial class PlayField
+    /// <summary>
+    /// たまを生成する
+    /// </summary>
+    public class TamaGenerator : MonoBehaviour
+    //public partial class PlayField
     {
         /// <summary>
         /// たまオブジェクトprefab
@@ -21,9 +24,26 @@ namespace Pzldm
         /// </summary>
         private Sprite[] tamaSprites;
         /// <summary>
+        /// たまのスプライトを取得
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Sprite GetTamaSprite(int index)
+        {
+            return tamaSprites[index];
+        }
+        /// <summary>
         /// たまが消えるときのエフェクトスプライト
         /// </summary>
         private Sprite[] tamaSparkSprites;
+        /// <summary>
+        /// たまが消えるときのエフェクトスプライト取得
+        /// </summary>
+        public Sprite GetTamaSparkSprite(int index)
+        {
+            return tamaSparkSprites[index];
+        }
+        public int TamaSparkSpriteCount { get { return tamaSparkSprites.Length; } }
 
         /// <summary>
         /// たまを作っておく
@@ -37,7 +57,7 @@ namespace Pzldm
         /// <summary>
         /// スプライトをキャッシュ
         /// </summary>
-        private void InitTamaSpriteCache()
+        public void InitTamaSpriteCache(PlayFieldSetting setting)
         {
             tamaSprites = CreateSpriteCache(setting.tamaSpriteNames);
             tamaSparkSprites = CreateSpriteCache(setting.sparkSpriteNames);
@@ -55,7 +75,7 @@ namespace Pzldm
         /// <summary>
         /// たまをキャッシュ
         /// </summary>
-        private void InitTamaCache()
+        public void InitTamaCache(PlayFieldSetting setting, Transform transform)
         {
             if (tamaCache != null) return;
             var count = setting.columnsCount * setting.rowsCount;
@@ -64,7 +84,7 @@ namespace Pzldm
             {
                 var s = GameObject.Instantiate<SpriteRenderer>(tamaPrefab);
                 //s.sprite = atlas.GetSprite("l01");
-                s.transform.parent = this.transform;
+                s.transform.parent = transform;
                 s.transform.localPosition = Vector3.zero;
                 s.transform.localScale = Vector3.one;
                 s.enabled = false;
@@ -77,12 +97,12 @@ namespace Pzldm
         /// <summary>
         /// たま生成乱数の初期化
         /// </summary>
-        private void InitTamaRandom()
+        public void InitTamaRandom(PlayFieldSetting setting)
         {
             tamaRand = new System.Random(setting.tamaRandomSeed);
             tamaRandomSeed = tamaRand.Next();
         }
-        private void ResetTamaRandom()
+        public void ResetTamaRandom()
         {
             tamaRand = new System.Random(tamaRandomSeed);
             tamaRandomSeed = tamaRand.Next();
@@ -90,30 +110,19 @@ namespace Pzldm
         /// <summary>
         /// たまのペアを生成
         /// </summary>
-        private void GenerateTamaPair(TamaData[] pair)
+        public void GenerateTamaPair(PlayFieldSetting setting, TamaData[] pair)
         {
             // たまをキャッシュから取得し色を決める
             pair[0] = GenerateTama();
             pair[1] = GenerateTama();
             // たまの組み合わせを決める
             TamaStateType mt, st;
-            GenerateTamaPairType(out mt, out st);
+            GenerateTamaPairType(setting, out mt, out st);
             pair[0].State = mt;
             pair[1].State = st;
             // たまのスプライトを設定する
             SetupTamaSprite(pair[0]);
             SetupTamaSprite(pair[1]);
-        }
-        /// <summary>
-        /// つぎのたまを生成
-        /// </summary>
-        private void GenerateNextTamaPair()
-        {
-            GenerateTamaPair(nextTamaPair);
-            // たまの位置を設定する
-            Vector2Int pos = (playerNumber >= setting.nextTamaPositions.Length) ? setting.nextTamaPosition : setting.nextTamaPositions[playerNumber];
-            SetTamaPosition(nextTamaPair[0], pos.x, pos.y);
-            SetTamaPosition(nextTamaPair[1], pos.x, pos.y + 1);
         }
         /// <summary>
         /// たまを１つ生成
@@ -131,7 +140,7 @@ namespace Pzldm
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        private TamaData GenerateAttackTama(ColorType color)
+        public TamaData GenerateAttackTama(ColorType color)
         {
             TamaData data = tamaCache.Pop();
             data.Color = color;
@@ -144,7 +153,7 @@ namespace Pzldm
         /// たまの組み合わせを決める
         /// </summary>
         /// <returns></returns>
-        private void GenerateTamaPairType(out TamaStateType mainState, out TamaStateType subState)
+        private void GenerateTamaPairType(PlayFieldSetting setting, out TamaStateType mainState, out TamaStateType subState)
         {
             int sum = setting.tamaPairRate.Sum();
             int r = tamaRand.Next(sum);
@@ -198,12 +207,40 @@ namespace Pzldm
         /// たまをキャッシュに戻す
         /// </summary>
         /// <param name="data"></param>
-        private void ReleaseTama(TamaData data)
+        public void ReleaseTama(TamaData data)
         {
             data.Sprite.enabled = false;
             data.Spark.enabled = false;
 
             tamaCache.Push(data);
+        }
+    }
+    public partial class PlayField
+    {
+        [SerializeField]
+        private TamaGenerator tamaGeneratorSource;
+        private TamaGenerator tamaGenerator;
+        /// <summary>
+        /// たまジェネレータを初期化
+        /// </summary>
+        public void InitTamaGenerator()
+        {
+            tamaGenerator = GameObject.Instantiate<TamaGenerator>(tamaGeneratorSource);
+
+            tamaGenerator.InitTamaRandom(setting);
+            tamaGenerator.InitTamaSpriteCache(setting);
+            tamaGenerator.InitTamaCache(setting, this.transform);
+        }
+        /// <summary>
+        /// つぎのたまを生成
+        /// </summary>
+        private void GenerateNextTamaPair()
+        {
+            tamaGenerator.GenerateTamaPair(setting, nextTamaPair);
+            // たまの位置を設定する
+            Vector2Int pos = (playerNumber >= setting.nextTamaPositions.Length) ? setting.nextTamaPosition : setting.nextTamaPositions[playerNumber];
+            SetTamaPosition(nextTamaPair[0], pos.x, pos.y);
+            SetTamaPosition(nextTamaPair[1], pos.x, pos.y + 1);
         }
         /// <summary>
         /// フィールドのたまを消す
@@ -213,7 +250,7 @@ namespace Pzldm
         private void ReleaseTamaInField(int x, int y)
         {
             if (tamaField[y, x] == null) return;
-            ReleaseTama(tamaField[y, x]);
+            tamaGenerator.ReleaseTama(tamaField[y, x]);
             tamaField[y, x] = null;
             // まわりのこだまをおおだまにする
             (int x, int y)[] offsets = new (int x, int y)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
@@ -230,10 +267,9 @@ namespace Pzldm
                 {
                     tamaField[ny, nx].State = TamaStateType.Large;
                     int index = (int)tamaField[ny, nx].Color;
-                    tamaField[ny, nx].Sprite.sprite = tamaSprites[index];
+                    tamaField[ny, nx].Sprite.sprite = tamaGenerator.GetTamaSprite(index);
                 }
             }
         }
     }
-
 }

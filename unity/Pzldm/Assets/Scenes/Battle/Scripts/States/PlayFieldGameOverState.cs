@@ -48,7 +48,7 @@ namespace Pzldm
                 for (int i = 0; i < pair.Length; ++i)
                 {
                     if (pair[i] == null) continue;
-                    ReleaseTama(pair[i]);
+                    tamaGenerator.ReleaseTama(pair[i]);
                     pair[i] = null;
                 }
             };
@@ -71,7 +71,7 @@ namespace Pzldm
                     if (v.y < -5)
                     {
                         RemoveTamaFromField(x, y);
-                        ReleaseTama(data);
+                        tamaGenerator.ReleaseTama(data);
                     }
                     else
                     {

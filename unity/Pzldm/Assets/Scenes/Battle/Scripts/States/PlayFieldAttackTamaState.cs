@@ -245,7 +245,7 @@ namespace Pzldm
                     }
                 }
                 // 一番下の段に新たなこだまを設定
-                var tama = GenerateAttackTama(pattern[offset + x].Color);
+                var tama = tamaGenerator.GenerateAttackTama(pattern[offset + x].Color);
                 SetTamaPosition(tama, x, 0);
                 PutTamaToField(tama);
             }
@@ -293,7 +293,7 @@ namespace Pzldm
                 if (next < 0) continue;
                 var color = dropAttackBuffer[next].color;
                 dropAttackBufferIndices[i] = dropAttackBuffer[next].next;
-                var tama = GenerateAttackTama(color);
+                var tama = tamaGenerator.GenerateAttackTama(color);
                 SetTamaPosition(tama, i, setting.rowsCount - 1);
                 PutTamaToField(tama);
                 --currentDropAttackCount;

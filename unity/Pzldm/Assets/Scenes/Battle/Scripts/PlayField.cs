@@ -144,9 +144,7 @@ namespace Pzldm
         // Start is called before the first frame update
         void Start()
         {
-            InitTamaRandom();
-            InitTamaSpriteCache();
-            InitTamaCache();
+            InitTamaGenerator();
             InitPlayField();
             InitPlayingState();
             InitAttackTamaParameters();

@@ -51,13 +51,13 @@ namespace Pzldm
                 }
                 --tamaSparkCount;
                 ++tamaSparkSpriteIndex;
-                if (tamaSparkSpriteIndex == tamaSparkSprites.Length)
+                if (tamaSparkSpriteIndex == tamaGenerator.TamaSparkSpriteCount)
                 {
                     tamaSparkSpriteIndex = 0;
                 }
                 tamaSparkWaitFrame = TamaSparkWaitFrame;
                 // スプライトを入れ替える
-                Sprite sprite = tamaSparkSprites[tamaSparkSpriteIndex];
+                Sprite sprite = tamaGenerator.GetTamaSparkSprite(tamaSparkSpriteIndex);
                 for (int x = 0; x < setting.columnsCount; ++x)
                 {
                     for (int y = 0; y < setting.rowsCount; ++y)

@@ -46,10 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugText: {fileID: 0}
   stateName: {fileID: 0}
-  setting: {fileID: 11400000, guid: 68457c88efbc2844b9eef8e3f39b6d53, type: 2}
-  tamaPrefab: {fileID: 4444155471418828713, guid: ee781c55e2134f04fbab75d816cfbf11,
+  inputActionAsset: {fileID: 0}
+  setting: {fileID: 0}
+  playerNumber: 0
+  sendAttackCount: 0
+  recievedAttackCount: 0
+  opponentAttackPattern: {fileID: 0}
+  chainCounter: {fileID: 0}
+  tamaGeneratorSource: {fileID: 1774186407825706268, guid: 522943ab7e179d3449cfdd71b119223b,
     type: 3}
-  atlas: {fileID: 4343727234628468602, guid: 750dc3f9f9639ba40931d8ffdd745a8a, type: 2}
 --- !u!1 &7772676596156088702
 GameObject:
   m_ObjectHideFlags: 0
