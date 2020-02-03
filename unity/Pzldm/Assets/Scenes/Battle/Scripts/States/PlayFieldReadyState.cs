@@ -40,15 +40,19 @@ namespace Pzldm
         /// </summary>
         private void StateReadyUpdate()
         {
-            if (!IsStateManaged || IsReadyToStart)
+            // 準備同期待ち
+            if (IsStateManaged && !IsReadyToStart)
             {
-                ChangeState(PlayingState.ControlTama);
-            }
-            if (readyWaitFrames > 0)
-            {
-                --readyWaitFrames;
                 return;
             }
+            //// 演出待ち
+            //if (readyWaitFrames > 0)
+            //{
+            //    --readyWaitFrames;
+            //    return;
+            //}
+            // 操作開始
+            ChangeState(PlayingState.ControlTama);
         }
         /// <summary>
         /// Ready 終了

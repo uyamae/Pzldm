@@ -214,6 +214,10 @@ namespace Pzldm
         /// </summary>
         public void UpdateInputEx()
         {
+            if (stateMachine.CurrentState != PlayingState.ControlTama)
+            {
+                return;
+            }
             // 履歴更新
             prevPressed = currentPressed;
             currentPressed = GenerateBits();
