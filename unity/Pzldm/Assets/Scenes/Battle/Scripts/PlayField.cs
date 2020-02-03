@@ -150,7 +150,6 @@ namespace Pzldm
             InitTamaGenerator();
             InitPlayField();
             InitPlayingState();
-            InitAttackTamaParameters();
 
             //GenerateTamaPair();
         }

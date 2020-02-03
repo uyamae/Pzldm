@@ -27,6 +27,7 @@ namespace Pzldm
             // こうげきだまの数リセット
             SendAttackCount = 0;
             RecievedAttackCount = 0;
+            InitAttackTamaParameters();
             // 連鎖数リセット
             ChainCount = 0;
             // ゲームオーバーフラグリセット
