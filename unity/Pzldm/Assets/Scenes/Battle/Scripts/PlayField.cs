@@ -24,6 +24,9 @@ namespace Pzldm
         /// </summary>
         SS,
     }
+    /// <summary>
+    /// プレイヤー一人分のフィールド操作
+    /// </summary>
     public partial class PlayField : MonoBehaviour, BattleInputActions.IBattleActions
     {
         /// <summary>
@@ -347,30 +350,8 @@ namespace Pzldm
 
             return true;
         }
-        //private void ProcessDpad()
-        //{
-        //    Vector2 v = inputActions.Dpad.ReadValue<Vector2>();
-        //    if (v.x < 0)
-        //    {
-        //        MoveTamaPairLeft(currentTamaPair[0], currentTamaPair[1]);
-        //    }
-        //    else if (v.x > 0)
-        //    {
-        //        MoveTamaPairRight(currentTamaPair[0], currentTamaPair[1]);
-        //    }
-        //    if (v.y < 0)
-        //    {
-        //        MoveTamaPairDown(currentTamaPair[0], currentTamaPair[1]);
-        //    }
-        //    else if (v.y > 0)
-        //    {
-        //        MoveTamaPairUp(currentTamaPair[0], currentTamaPair[1]);
-        //    }
-        //}
-
         public void OnDpad(InputAction.CallbackContext context)
         {
         }
     }
-
 }

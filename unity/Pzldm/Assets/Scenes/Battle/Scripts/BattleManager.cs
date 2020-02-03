@@ -93,6 +93,8 @@ namespace Pzldm
         /// </summary>
         void Start()
         {
+            /// たま生成用乱数シードリセット
+            PzldmManager.Instance.ResetRandomSeed();
             /// 状態遷移初期化
             var states = new StateMachine<BattleState>.State[] {
                 new StateMachine<BattleState>.State() {
@@ -138,7 +140,7 @@ namespace Pzldm
         private void UpdateInit()
         {
             // 設定反映
-            var mgr = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
+            var mgr = PzldmManager.Instance;
             for (int i = 0; i < playFields.Length; ++i)
             {
                 var p = playFields[i];

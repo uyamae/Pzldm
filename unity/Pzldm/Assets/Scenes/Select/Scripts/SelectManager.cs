@@ -130,8 +130,7 @@ namespace Pzldm
         private void InitCharacterPanels()
         {
             if (selectCharacterMenu == null) return;
-            //if (characterPanelPrefab == null) return;
-            var mgr = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
+            var mgr = PzldmManager.Instance;
             if (mgr == null) return;
             for (int i = 0; i < mgr.AttackPatterns.Length; ++i)
             {
@@ -170,7 +169,7 @@ namespace Pzldm
         }
         private void CallbackSelectCharacter(int index)
         {
-            var mgr = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
+            var mgr = PzldmManager.Instance;
             if (stateMachine.CurrentState == SelectState.Select1pCharacter)
             {
                 mgr.SetPlayerAttackPattern(0, mgr.AttackPatterns[index]);

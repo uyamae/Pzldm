@@ -62,6 +62,11 @@ namespace Pzldm
             tamaSprites = CreateSpriteCache(setting.tamaSpriteNames);
             tamaSparkSprites = CreateSpriteCache(setting.sparkSpriteNames);
         }
+        /// <summary>
+        /// たま表示用スプライト初期化
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns></returns>
         private Sprite[] CreateSpriteCache(string[] names)
         {
             Sprite[] sprites = new Sprite[names.Length];
@@ -71,7 +76,6 @@ namespace Pzldm
             }
             return sprites;
         }
-
         /// <summary>
         /// たまをキャッシュ
         /// </summary>
@@ -93,15 +97,28 @@ namespace Pzldm
                 tamaCache.Push(tama);
             }
         }
+        /// <summary>
+        /// 次回リセット時に使用するたま生成乱数シード
+        /// </summary>
         private int tamaRandomSeed;
         /// <summary>
         /// たま生成乱数の初期化
         /// </summary>
         public void InitTamaRandom(PlayFieldSetting setting)
         {
-            tamaRand = new System.Random(setting.tamaRandomSeed);
+            InitTamaRandom(setting.tamaRandomSeed);
+        }
+        /// <summary>
+        /// たま生成乱数の初期化
+        /// </summary>
+        public void InitTamaRandom(int seed)
+        {
+            tamaRand = new System.Random(seed);
             tamaRandomSeed = tamaRand.Next();
         }
+        /// <summary>
+        /// たま生成乱数のリセット
+        /// </summary>
         public void ResetTamaRandom()
         {
             tamaRand = new System.Random(tamaRandomSeed);
@@ -215,6 +232,9 @@ namespace Pzldm
             tamaCache.Push(data);
         }
     }
+    /// <summary>
+    /// たま生成関連処理
+    /// </summary>
     public partial class PlayField
     {
         [SerializeField]
@@ -227,7 +247,7 @@ namespace Pzldm
         {
             tamaGenerator = GameObject.Instantiate<TamaGenerator>(tamaGeneratorSource);
 
-            tamaGenerator.InitTamaRandom(setting);
+            tamaGenerator.InitTamaRandom(PzldmManager.Instance.RandomSeed);
             tamaGenerator.InitTamaSpriteCache(setting);
             tamaGenerator.InitTamaCache(setting, this.transform);
         }

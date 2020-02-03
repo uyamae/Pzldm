@@ -24,6 +24,23 @@ namespace Pzldm
     /// </summary>
     public class PzldmManager : MonoBehaviour
     {
+        public static PzldmManager theInstance = null;
+        /// <summary>
+        /// PzldmManager のインスタンス
+        /// </summary>
+        public static PzldmManager Instance
+        {
+            get
+            {
+                if (theInstance == null)
+                {
+                    theInstance = GameObject.Find("PzldmManager")?.GetComponent<PzldmManager>();
+                }
+                return theInstance;
+            }
+        }
+
+
         public enum GameMode
         {
             Boot,
@@ -42,7 +59,7 @@ namespace Pzldm
         /// <param name="data"></param>
         public void SetPlayerAttackPattern(int playerNo, AttackPatternData data)
         {
-            if (playerNo < 0 || playerNo >= selectedPatterns.Length) return;
+            if ((playerNo < 0) || (playerNo >= selectedPatterns.Length)) return;
 
             selectedPatterns[playerNo] = data;
         }
@@ -75,6 +92,10 @@ namespace Pzldm
             get { return playingMode; }
             set { playingMode = value; }
         }
+        /// <summary>
+        /// たま生成用の乱数シード初期値(起動時に設定)
+        /// </summary>
+        public int RandomSeed { get; set; }
         private void Awake()
         {
             DontDestroyOnLoad(this);
@@ -107,8 +128,22 @@ namespace Pzldm
 
         private void BootUpdate()
         {
+            ResetRandomSeed();
             SceneManager.LoadScene("select");
             stateMachine.ChangeState(GameMode.Select);
+
+        }
+        public void ResetRandomSeed()
+        {
+            // 現在時刻を乱数シードに
+            var now = System.DateTime.Now;
+            int seed = 0;
+            seed = seed * 365 + now.Month;
+            seed = seed * 31 + now.Day;
+            seed = seed * 24 + now.Hour;
+            seed = seed * 60 + now.Minute;
+            seed = seed * 60 + now.Second;
+            RandomSeed = seed * 1000 + now.Millisecond;
         }
         private void SelectEnter()
         {
