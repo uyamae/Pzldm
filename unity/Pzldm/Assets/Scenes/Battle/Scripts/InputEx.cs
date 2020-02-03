@@ -92,11 +92,14 @@ namespace Pzldm
                 inputDpad = inputActionAsset.FindAction("Dpad");
                 var rotR = inputActionAsset.FindAction("RotateRight");
                 var rotL = inputActionAsset.FindAction("RotateLeft");
+                var start = inputActionAsset.FindAction("Pause");
                 rotR.performed += OnRotateRight;
                 rotR.canceled += OnRotateRight;
                 rotL.performed += OnRotateLeft;
                 rotL.canceled += OnRotateLeft;
-                inputButtons = (rotR, rotL, rotR);
+                start.performed += OnPause;
+                start.canceled += OnPause;
+                inputButtons = (rotR, rotL, start);
             }
             else
             {
@@ -182,20 +185,19 @@ namespace Pzldm
         }
         public void OnRotateLeft(InputAction.CallbackContext context)
         {
-            uint bit = (uint)(1 << (int)KeyIndex.B);
-            if (context.ReadValue<float>() > 0.5f)
-            {
-                realTimePressed |= bit;
-            }
-            else
-            {
-                realTimePressed &= ~bit;
-            }
+            OnButtonInput(context, KeyIndex.B);
         }
-
         public void OnRotateRight(InputAction.CallbackContext context)
         {
-            uint bit = (uint)(1 << (int)KeyIndex.A);
+            OnButtonInput(context, KeyIndex.A);
+        }
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            OnButtonInput(context, KeyIndex.Start);
+        }
+        private void OnButtonInput(InputAction.CallbackContext context, KeyIndex index)
+        {
+            uint bit = (uint)(1 << (int)index);
             if (context.ReadValue<float>() > 0.5f)
             {
                 realTimePressed |= bit;
@@ -204,6 +206,7 @@ namespace Pzldm
             {
                 realTimePressed &= ~bit;
             }
+           
         }
 
         /// <summary>

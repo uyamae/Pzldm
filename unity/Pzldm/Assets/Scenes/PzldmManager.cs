@@ -17,7 +17,7 @@ namespace Pzldm
         /// <summary>
         /// ２人対戦プレイ
         /// </summary>
-        VirsusPlay,
+        VersusPlay,
     }
     /// <summary>
     /// 常駐して管理

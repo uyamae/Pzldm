@@ -108,7 +108,7 @@ namespace Pzldm
         }
         public void CallbackVersusPlayButton()
         {
-            playingMode = PlayingModeType.VirsusPlay;
+            playingMode = PlayingModeType.VersusPlay;
             stateMachine.ChangeState(SelectState.Select1pCharacter);
         }
         #endregion
