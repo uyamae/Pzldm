@@ -109,6 +109,7 @@ namespace Pzldm
             {
                 currentLiftAttackCount += setting.columnsCount;
                 count -= setting.columnsCount;
+                --liftLines;
             }
             // 残りを落下個数として落下こうげきだまバッファの設定
             SetupCurrentDropAttackTama(count);
