@@ -16,9 +16,13 @@ namespace Pzldm
         /// </summary>
         Init,
         /// <summary>
-        /// 試合開始
+        /// 試合準備
         /// </summary>
         Ready,
+        /// <summary>
+        /// 試合開始演出
+        /// </summary>
+        Start,
         /// <summary>
         /// 試合中
         /// </summary>
@@ -94,7 +98,7 @@ namespace Pzldm
         void Start()
         {
             /// たま生成用乱数シードリセット
-            PzldmManager.Instance.ResetRandomSeed();
+            PzldmManager.Instance?.ResetRandomSeed();
             /// 状態遷移初期化
             var states = new StateMachine<BattleState>.State[] {
                 new StateMachine<BattleState>.State() {
@@ -103,6 +107,10 @@ namespace Pzldm
                 new StateMachine<BattleState>.State() {
                     Enter = EnterReady,
                     Update = UpdateReady,
+                },
+                new StateMachine<BattleState>.State() {
+                    Enter = EnterStart,
+                    Update = UpdateStart,
                 },
                 new StateMachine<BattleState>.State() {
                     Update = UpdatePlaying,
@@ -189,15 +197,39 @@ namespace Pzldm
                 if (p.CurrentState != PlayingState.Ready) return;
             }
             // ここにたどり着いたら全部がReady
-            foreach (var p in playFields)
+            stateMachine.ChangeState(BattleState.Start);
+        }
+        private ReadyFightDirection readyFight;
+        /// <summary>
+        /// 開始演出
+        /// </summary>
+        private void EnterStart()
+        {
+            if (readyFight == null)
             {
-                if (p != null && p.gameObject.activeInHierarchy)
-                {
-                    p.BattleManager = this;
-                    p.IsReadyToStart = true;
-                }
+                readyFight = GameObject.FindGameObjectsWithTag("ReadyFight").FirstOrDefault()?.GetComponent<ReadyFightDirection>();
             }
-            stateMachine.ChangeState(BattleState.Playing);
+            readyFight.StartDirection();
+        }
+        /// <summary>
+        /// 開始演出待ち
+        /// </summary>
+        private void UpdateStart()
+        {
+            if (!readyFight.IsPlaying)
+            {
+                // PlayField に通知
+                foreach (var p in playFields)
+                {
+                    if (p != null && p.gameObject.activeInHierarchy)
+                    {
+                        p.BattleManager = this;
+                        p.IsReadyToStart = true;
+                    }
+                }
+                // プレイ中状態に遷移
+                stateMachine.ChangeState(BattleState.Playing);
+            }
         }
         /// <summary>
         /// 試合中更新
