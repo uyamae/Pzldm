@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Pzldm
 {
@@ -30,10 +31,6 @@ namespace Pzldm
         /// </summary>
         private int currentLiftAttackCount;
         /// <summary>
-        /// 今回適用する落下するこうげきだまの数
-        /// </summary>
-        private int currentDropAttackCount;
-        /// <summary>
         /// せり上げパターンのインデックス
         /// </summary>
         private int liftPatternIndex;
@@ -53,7 +50,7 @@ namespace Pzldm
             public ColorType color;
         }
         /// <summary>
-        /// 落下するこうげきだまのインデックス
+        /// 落下するこうげきだまの列ごとのリンクリストの先頭
         /// </summary>
         private int[] dropAttackBufferIndices;
         /// <summary>
@@ -113,16 +110,15 @@ namespace Pzldm
                 currentLiftAttackCount += setting.columnsCount;
                 count -= setting.columnsCount;
             }
-            // 残りは落下個数
-            currentDropAttackCount = count;
-            // 落下こうげきだまバッファの設定
-            SetupCurrentDropAttackTama(currentDropAttackCount);
+            // 残りを落下個数として落下こうげきだまバッファの設定
+            SetupCurrentDropAttackTama(count);
         }
         /// <summary>
         /// 落下こうげきだまの設定
         /// </summary>
         private void SetupCurrentDropAttackTama(int count)
         {
+            // リンクリストの先頭リセット
             for (int i = 0; i < dropAttackBufferIndices.Length; ++i)
             {
                 dropAttackBufferIndices[i] = -1;
@@ -131,6 +127,7 @@ namespace Pzldm
             int attack = 0;
             while ((count > 0) && (attack < OpponentAttackPattern.DropAttackTamaPattern.Length))
             {
+                // 先頭から順に調べる
                 var data = OpponentAttackPattern.DropAttackTamaPattern[attack++];
                 // フィールドが空いていたら
                 if (tamaField[data.Position.y, data.Position.x] == null)
@@ -156,6 +153,7 @@ namespace Pzldm
                     --count;
                 }
             }
+            // 未使用箇所の設定
             while (index < dropAttackBuffer.Length)
             {
                 dropAttackBuffer[index].next = -1;
@@ -264,7 +262,7 @@ namespace Pzldm
             {
                 --attackLineWaitFrame;
             }
-            else if (currentDropAttackCount > 0)
+            else if (dropAttackBufferIndices.Count(x => x >= 0) > 0)
             {
                 // まだこうげきだまがあれば適用
                 ApplyDropAttackLine();
@@ -273,7 +271,7 @@ namespace Pzldm
             // こうげきだま落下
             var drop = DropTamaInFIeld();
             // 落下するものがなくなれば次へ
-            if (!drop && (currentDropAttackCount == 0))
+            if (!drop && (dropAttackBufferIndices.Count(x => x >= 0) <= 0))
             {
                 ChangeStateAfterDropping();
             }
@@ -296,7 +294,6 @@ namespace Pzldm
                 var tama = tamaGenerator.GenerateAttackTama(color);
                 SetTamaPosition(tama, i, setting.rowsCount - 1);
                 PutTamaToField(tama);
-                --currentDropAttackCount;
             }
         }
         #endregion
