@@ -27,7 +27,8 @@ namespace Pzldm
             // 連鎖数をリセット
             chainCount = 0;
             // 自由落下カウンターをリセット
-            tamaFallFrameCount = TamaFallFrame;
+            tamaFallFrameCount = 0; // 最初はカウンターを0 にしておく
+            //tamaFallFrameCount = TamaFallFrame;
         }
         private void StateControlTamaUpdate()
         {
