@@ -53,15 +53,20 @@ namespace Pzldm
         [SerializeField]
         private AttackPatternData[] selectedPatterns;
         /// <summary>
+        /// 選択されたこうげきだまパターンの画像
+        /// </summary>
+        private Sprite[] selectedPatternSprites;
+        /// <summary>
         /// 選択されたこうげきだまパターンを設定
         /// </summary>
         /// <param name="playerNo"></param>
         /// <param name="data"></param>
-        public void SetPlayerAttackPattern(int playerNo, AttackPatternData data)
+        public void SetPlayerAttackPattern(int playerNo, AttackPatternData data, Sprite sprite)
         {
             if ((playerNo < 0) || (playerNo >= selectedPatterns.Length)) return;
 
             selectedPatterns[playerNo] = data;
+            selectedPatternSprites[playerNo] = sprite;
         }
         /// <summary>
         /// 選択されたこうげきだまパターンを取得
@@ -72,6 +77,16 @@ namespace Pzldm
         {
             if (playerNo < 0 || playerNo >= selectedPatterns.Length) return null;
             return selectedPatterns[playerNo];
+        }
+        /// <summary>
+        /// 選択されたこうげきだまパターンのスプライトを取得
+        /// </summary>
+        /// <param name="playerNo"></param>
+        /// <returns></returns>
+        public Sprite GetPlayerAttackPatternSprite(int playerNo)
+        {
+            if (playerNo < 0 || playerNo >= selectedPatterns.Length) return null;
+            return selectedPatternSprites[playerNo];
         }
 
         [SerializeField]
@@ -124,6 +139,7 @@ namespace Pzldm
                     }
                 }
                 );
+            selectedPatternSprites = new Sprite[selectedPatterns.Length];
         }
 
         private void BootUpdate()

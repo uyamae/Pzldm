@@ -190,6 +190,16 @@ namespace Pzldm
                 if (a != null)
                 {
                     playFields[i].OpponentAttackPattern = a;
+                    // 画像設定
+                    var srs = attackCounts[i].GetComponentsInChildren<SpriteRenderer>();
+                    foreach (var sr in srs)
+                    {
+                        if (sr.gameObject.name == "attack_sample")
+                        {
+                            sr.sprite = PzldmManager.Instance.GetPlayerAttackPatternSprite(i);
+                            break;
+                        }
+                    }
                 }
             }
             if (mgr?.PlayingMode == PlayingModeType.SinglePlay)
