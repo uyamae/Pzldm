@@ -851,6 +851,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playingModeMenu: {fileID: 81506138}
   selectCharacterMenu: {fileID: 1684595587}
+  uiInputModule: {fileID: 1174031645}
+  input1P: {fileID: -944628639613478452, guid: 900cf5db7dd615943a924c55bc875600, type: 3}
+  input2P: {fileID: -944628639613478452, guid: ef6c19f4ec0075842806812526f7a93e, type: 3}
 --- !u!4 &988739181
 Transform:
   m_ObjectHideFlags: 0
@@ -899,13 +902,15 @@ MonoBehaviour:
   m_RepeatRate: 0.1
   m_ActionsAsset: {fileID: -944628639613478452, guid: 900cf5db7dd615943a924c55bc875600,
     type: 3}
-  m_PointAction: {fileID: 0}
+  m_PointAction: {fileID: -2215072723114227367, guid: 900cf5db7dd615943a924c55bc875600,
+    type: 3}
   m_MoveAction: {fileID: -138498157778004830, guid: 900cf5db7dd615943a924c55bc875600,
     type: 3}
   m_SubmitAction: {fileID: -4120997833568633098, guid: 900cf5db7dd615943a924c55bc875600,
     type: 3}
   m_CancelAction: {fileID: 0}
-  m_LeftClickAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 6538882284104195610, guid: 900cf5db7dd615943a924c55bc875600,
+    type: 3}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
   m_ScrollWheelAction: {fileID: 0}

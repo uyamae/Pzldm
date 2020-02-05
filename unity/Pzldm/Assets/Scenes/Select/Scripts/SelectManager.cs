@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Pzldm
 {
@@ -26,18 +30,18 @@ namespace Pzldm
         [SerializeField]
         private SelectCharacterMenu selectCharacterMenu;
 
+        [SerializeField]
+        private InputSystemUIInputModule uiInputModule;
+        [SerializeField]
+        private InputActionAsset input1P;
+        [SerializeField]
+        private InputActionAsset input2P;
+
         private Sprite[] attackPatternSprites;
 
         // Start is called before the first frame update
         void Start()
         {
-            var selectCharacterState = new StateMachine<SelectState>.State()
-                    {
-                        Enter = SelectCharacterEnter,
-                        Update = SelectCharacterUpdate,
-                        Leave = SelectCharacterLeave,
-                    };
-
             stateMachine = new StateMachine<SelectState>(
                 new StateMachine<SelectState>.State[] {
                     // Init
@@ -54,9 +58,19 @@ namespace Pzldm
                         Leave = SelectPlayerLeave,
                     },
                     // Select1pCharacter
-                    selectCharacterState,
+                    new StateMachine<SelectState>.State()
+                    {
+                        Enter = Select1pCharacterEnter,
+                        Update = SelectCharacterUpdate,
+                        Leave = SelectCharacterLeave,
+                    },
                     // Select2pCharacter
-                    selectCharacterState,
+                    new StateMachine<SelectState>.State()
+                    {
+                        Enter = Select2pCharacterEnter,
+                        Update = SelectCharacterUpdate,
+                        Leave = SelectCharacterLeave,
+                    },
                 }
             );
             InitSelectPlayerMenu();
@@ -115,11 +129,19 @@ namespace Pzldm
         }
         #endregion
         #region キャラクター選択
-        private void SelectCharacterEnter()
+        private void Select1pCharacterEnter()
         {
             selectCharacterMenu.gameObject.SetActive(true);
+            uiInputModule.actionsAsset = input1P;
             SetCharacterSelectMenuTitleText();
         }
+        private void Select2pCharacterEnter()
+        {
+            selectCharacterMenu.gameObject.SetActive(true);
+            uiInputModule.actionsAsset = (playingMode == PlayingModeType.VersusPlay) ? input2P : input1P;
+            SetCharacterSelectMenuTitleText();
+        }
+
         private void SelectCharacterUpdate()
         {
 
