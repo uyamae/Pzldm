@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Pzldm
 {
@@ -31,7 +32,7 @@ namespace Pzldm
         // Start is called before the first frame update
         void Start()
         {
-            renderers = GetComponentsInChildren<SpriteRenderer>();
+            renderers = GetComponentsInChildren<SpriteRenderer>().Where(x => x.name.StartsWith("n")).ToArray();
             System.Array.Sort<SpriteRenderer>(renderers, (a, b) => string.Compare(a.name, b.name));
         }
 

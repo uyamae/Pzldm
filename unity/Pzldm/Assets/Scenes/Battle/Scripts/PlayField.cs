@@ -150,7 +150,6 @@ namespace Pzldm
             InitTamaGenerator();
             InitPlayField();
             InitPlayingState();
-            InitAttackTamaParameters();
 
             //GenerateTamaPair();
         }
@@ -353,5 +352,9 @@ namespace Pzldm
         public void OnDpad(InputAction.CallbackContext context)
         {
         }
+        /// <summary>
+        /// ポーズ中かどうか
+        /// </summary>
+        public bool IsPaused { get; set; }
     }
 }

@@ -246,8 +246,12 @@ namespace Pzldm
         public void InitTamaGenerator()
         {
             tamaGenerator = GameObject.Instantiate<TamaGenerator>(tamaGeneratorSource);
-
-            tamaGenerator.InitTamaRandom(PzldmManager.Instance.RandomSeed);
+            int seed = setting.tamaRandomSeed;
+            if (PzldmManager.Instance != null)
+            {
+                seed = PzldmManager.Instance.RandomSeed;
+            }
+            tamaGenerator.InitTamaRandom(seed);
             tamaGenerator.InitTamaSpriteCache(setting);
             tamaGenerator.InitTamaCache(setting, this.transform);
         }

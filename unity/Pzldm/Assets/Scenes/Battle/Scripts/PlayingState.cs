@@ -149,7 +149,33 @@ namespace Pzldm
         /// </summary>
         private void ProcessState()
         {
-            stateMachine.UpdateState();
+            if (CheckPaused()) return;
+
+            stateMachine?.UpdateState();
+        }
+        private bool CheckPaused()
+        {
+            // ポーズ無効な状態判定
+            if (stateMachine == null) return false;
+            PlayingState state = stateMachine.CurrentState;
+            if ((state == PlayingState.Initialize) ||
+                (state == PlayingState.Ready) ||
+                (state == PlayingState.GameOver) ||
+                (state == PlayingState.AskContinue))
+            {
+                return false;
+            }
+            if (BattleManager.Instance?.IsPaused == true)
+            {
+                return true;
+            }
+            else if (CheckTriggeredKey(KeyIndex.Start))
+            {
+                // ポーズ入力チェック
+                BattleManager.Instance?.RequestPause();
+            }
+
+            return false;
         }
         /// <summary>
         /// ステート開始、初回だけ

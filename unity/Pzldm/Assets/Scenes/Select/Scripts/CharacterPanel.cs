@@ -54,5 +54,13 @@ namespace Pzldm
                 image.sprite = Sprite.Create(texture, new Rect(0, 0, 80, 80), Vector2.zero);
             }
         }
+        /// <summary>
+        /// こうげきだまパターン画像のスプライト取得
+        /// </summary>
+        /// <returns></returns>
+        public Sprite GetAttackPatternSprite()
+        {
+            return image?.sprite;
+        }
     }
 }

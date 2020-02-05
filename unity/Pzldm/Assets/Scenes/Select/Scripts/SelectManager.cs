@@ -26,6 +26,8 @@ namespace Pzldm
         [SerializeField]
         private SelectCharacterMenu selectCharacterMenu;
 
+        private Sprite[] attackPatternSprites;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -108,7 +110,7 @@ namespace Pzldm
         }
         public void CallbackVersusPlayButton()
         {
-            playingMode = PlayingModeType.VirsusPlay;
+            playingMode = PlayingModeType.VersusPlay;
             stateMachine.ChangeState(SelectState.Select1pCharacter);
         }
         #endregion
@@ -132,6 +134,8 @@ namespace Pzldm
             if (selectCharacterMenu == null) return;
             var mgr = PzldmManager.Instance;
             if (mgr == null) return;
+
+            attackPatternSprites = new Sprite[mgr.AttackPatterns.Length];
             for (int i = 0; i < mgr.AttackPatterns.Length; ++i)
             {
                 int index = i;
@@ -140,6 +144,7 @@ namespace Pzldm
                 {
                     panel.GetComponentInChildren<Selectable>(true).Select();
                 }
+                attackPatternSprites[i] = panel?.GetAttackPatternSprite();
             }
         }
         private void SetCharacterSelectMenuTitleText()
@@ -172,13 +177,13 @@ namespace Pzldm
             var mgr = PzldmManager.Instance;
             if (stateMachine.CurrentState == SelectState.Select1pCharacter)
             {
-                mgr.SetPlayerAttackPattern(0, mgr.AttackPatterns[index]);
+                mgr.SetPlayerAttackPattern(0, mgr.AttackPatterns[index], attackPatternSprites[index]);
                 stateMachine.ChangeState(SelectState.Select2pCharacter);
             }
             else if (stateMachine.CurrentState == SelectState.Select2pCharacter)
             {
                 mgr.PlayingMode = playingMode;
-                mgr.SetPlayerAttackPattern(1, mgr.AttackPatterns[index]);
+                mgr.SetPlayerAttackPattern(1, mgr.AttackPatterns[index], attackPatternSprites[index]);
                 SceneManager.LoadScene("battle");
             }
         }

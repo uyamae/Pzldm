@@ -16,9 +16,13 @@ namespace Pzldm
         /// </summary>
         Init,
         /// <summary>
-        /// 試合開始
+        /// 試合準備
         /// </summary>
         Ready,
+        /// <summary>
+        /// 試合開始演出
+        /// </summary>
+        Start,
         /// <summary>
         /// 試合中
         /// </summary>
@@ -31,12 +35,17 @@ namespace Pzldm
         /// 続行確認
         /// </summary>
         AskContinue,
+        /// <summary>
+        /// ポーズ中
+        /// </summary>
+        Paused,
     }
     /// <summary>
     /// 対戦を管理するクラス
     /// </summary>
     public class BattleManager : MonoBehaviour
     {
+        public static BattleManager Instance { get; private set; }
         /// <summary>
         /// 各プレイヤーのフィールド
         /// </summary>
@@ -89,12 +98,33 @@ namespace Pzldm
             }
         }
         /// <summary>
+        /// ポーズリクエスト状態
+        /// </summary>
+        private enum PauseStateType
+        {
+            None,
+            Requested,
+            Paused,
+        }
+        /// <summary>
+        /// ポーズリクエスト状態
+        /// </summary>
+        private PauseStateType pauseState;
+        /// <summary>
+        /// ポーズ中かどうか
+        /// </summary>
+        public bool IsPaused { get { return pauseState == PauseStateType.Paused; } }
+        private void Awake()
+        {
+            Instance = this;
+        }
+        /// <summary>
         /// 更新開始時
         /// </summary>
         void Start()
         {
             /// たま生成用乱数シードリセット
-            PzldmManager.Instance.ResetRandomSeed();
+            PzldmManager.Instance?.ResetRandomSeed();
             /// 状態遷移初期化
             var states = new StateMachine<BattleState>.State[] {
                 new StateMachine<BattleState>.State() {
@@ -103,6 +133,10 @@ namespace Pzldm
                 new StateMachine<BattleState>.State() {
                     Enter = EnterReady,
                     Update = UpdateReady,
+                },
+                new StateMachine<BattleState>.State() {
+                    Enter = EnterStart,
+                    Update = UpdateStart,
                 },
                 new StateMachine<BattleState>.State() {
                     Update = UpdatePlaying,
@@ -115,7 +149,12 @@ namespace Pzldm
                     Enter = EnterAskContinue,
                     Update = UpdateAskContinue,
                     Leave = LeaveAskContinue,
-                }
+                },
+                new StateMachine<BattleState>.State() {
+                    Enter = EnterPaused,
+                    Update = UpdatePaused,
+                    Leave = LeavePaused,
+                },
             };
             stateMachine = new StateMachine<BattleState>(states);
             stateMachine.StartState(BattleState.Init);
@@ -132,7 +171,7 @@ namespace Pzldm
         // Update is called once per frame
         void FixedUpdate()
         {
-            stateMachine.UpdateState();
+            stateMachine?.UpdateState();
         }
         /// <summary>
         /// 初期化状態更新
@@ -151,6 +190,16 @@ namespace Pzldm
                 if (a != null)
                 {
                     playFields[i].OpponentAttackPattern = a;
+                    // 画像設定
+                    var srs = attackCounts[i].GetComponentsInChildren<SpriteRenderer>();
+                    foreach (var sr in srs)
+                    {
+                        if (sr.gameObject.name == "attack_sample")
+                        {
+                            sr.sprite = PzldmManager.Instance.GetPlayerAttackPatternSprite(i);
+                            break;
+                        }
+                    }
                 }
             }
             if (mgr?.PlayingMode == PlayingModeType.SinglePlay)
@@ -170,6 +219,7 @@ namespace Pzldm
         /// </summary>
         private void EnterReady()
         {
+            pauseState = PauseStateType.None;
             // こうげきだま表示をリセット
             foreach (var n in attackCounts)
             {
@@ -189,21 +239,50 @@ namespace Pzldm
                 if (p.CurrentState != PlayingState.Ready) return;
             }
             // ここにたどり着いたら全部がReady
-            foreach (var p in playFields)
+            stateMachine.ChangeState(BattleState.Start);
+        }
+        private ReadyFightDirection readyFight;
+        /// <summary>
+        /// 開始演出
+        /// </summary>
+        private void EnterStart()
+        {
+            if (readyFight == null)
             {
-                if (p != null && p.gameObject.activeInHierarchy)
-                {
-                    p.BattleManager = this;
-                    p.IsReadyToStart = true;
-                }
+                readyFight = GameObject.FindGameObjectsWithTag("ReadyFight").FirstOrDefault()?.GetComponent<ReadyFightDirection>();
             }
-            stateMachine.ChangeState(BattleState.Playing);
+            readyFight.StartDirection();
+        }
+        /// <summary>
+        /// 開始演出待ち
+        /// </summary>
+        private void UpdateStart()
+        {
+            if (!readyFight.IsPlaying)
+            {
+                // PlayField に通知
+                foreach (var p in playFields)
+                {
+                    if (p != null && p.gameObject.activeInHierarchy)
+                    {
+                        p.BattleManager = this;
+                        p.IsReadyToStart = true;
+                    }
+                }
+                // プレイ中状態に遷移
+                stateMachine.ChangeState(BattleState.Playing);
+            }
         }
         /// <summary>
         /// 試合中更新
         /// </summary>
         private void UpdatePlaying()
         {
+            // ポーズ遷移
+            if (CheckPauseRequest())
+            {
+                return;
+            }
             // こうげきだま更新
             UpdateAttackCount();
             // ゲームオーバー同期
@@ -324,6 +403,58 @@ namespace Pzldm
             {
                 --n.Number;
             }
+        }
+        /// <summary>
+        /// ポーズ画面開始
+        /// </summary>
+        private void EnterPaused()
+        {
+            gameOverScreen.StartAskContinue();
+        }
+        /// <summary>
+        /// ポーズ中
+        /// </summary>
+        private void UpdatePaused()
+        {
+            if (gameOverScreen.Result == GameOverScreen.ResultType.Continue)
+            {
+                pauseState = PauseStateType.None;
+                stateMachine.ChangeState(BattleState.Playing);
+            }
+            else if (gameOverScreen.Result == GameOverScreen.ResultType.Exit)
+            {
+                // 終了、シーン遷移
+                SceneManager.LoadScene("select");
+            }
+        }
+        /// <summary>
+        /// ポーズ画面終了
+        /// </summary>
+        private void LeavePaused()
+        {
+            gameOverScreen.IsActive = false;
+        }
+        /// <summary>
+        /// ポーズリクエストw
+        /// </summary>
+        public void RequestPause()
+        {
+            if (PzldmManager.Instance?.PlayingMode == PlayingModeType.VersusPlay) return;
+            if (stateMachine?.CurrentState != BattleState.Playing) return;
+            if (IsPaused) return;
+            pauseState = PauseStateType.Requested;
+        }
+        /// <summary>
+        /// ポーズリクエストを確認
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckPauseRequest()
+        {
+            if (pauseState != PauseStateType.Requested) return false;
+
+            pauseState = PauseStateType.Paused;
+            stateMachine.ChangeState(BattleState.Paused);
+            return true;
         }
     }
 }

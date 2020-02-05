@@ -109,6 +109,7 @@ namespace Pzldm
             {
                 currentLiftAttackCount += setting.columnsCount;
                 count -= setting.columnsCount;
+                --liftLines;
             }
             // 残りを落下個数として落下こうげきだまバッファの設定
             SetupCurrentDropAttackTama(count);
@@ -227,6 +228,16 @@ namespace Pzldm
             if (liftPatternIndex == pattern.Length / setting.columnsCount)
             {
                 liftPatternIndex = 0;
+            }
+            // 一番上の段のたまは解放される
+            for (int x = 0; x < setting.columnsCount; ++x)
+            {
+                var data = GetTamaFromField(x, setting.rowsCount - 1);
+                if (data != null)
+                {
+                    RemoveTamaFromField(x, setting.rowsCount - 1); 
+                    tamaGenerator.ReleaseTama(data);
+                }
             }
             // せり上げ処理
             for (int x = 0; x < setting.columnsCount; ++x)
