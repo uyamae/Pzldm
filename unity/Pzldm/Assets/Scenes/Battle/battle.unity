@@ -853,7 +853,7 @@ MonoBehaviour:
   attackCounts:
   - {fileID: 1077740531}
   - {fileID: 1798860051}
-  useComPlayer: 1
+  useComPlayer: 0
   gameOverScreen: {fileID: 2087496577}
   debugGroup: {fileID: 0}
 --- !u!4 &564669822
