@@ -31,5 +31,19 @@ namespace Pzldm
             BuildOptions opts = BuildOptions.None;
             BuildPipeline.BuildPlayer(scenes, path, target, opts);
         }
+
+        [MenuItem("Pzldm/Build WebGL")]
+        public static void BuildWebGL()
+        {
+            string[] scenes = new string[] {
+                "Assets/Scenes/Boot/boot.unity",
+                "Assets/Scenes/Select/select.unity",
+                "Assets/Scenes/Battle/battle.unity"
+            };
+            string path = $"../../docs";
+            var target = BuildTarget.WebGL;
+            BuildOptions opts = BuildOptions.None;
+            BuildPipeline.BuildPlayer(scenes, path, target, opts);
+        }
     }
 }
