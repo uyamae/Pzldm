@@ -34,6 +34,8 @@ namespace Pzldm
             IsGameOver = false;
             // 開始できるかどうか
             IsReadyToStart = false;
+            // プレイのフレームカウントをリセット
+            PlayFrameCount = 0;
         }
         /// <summary>
         /// Ready 更新

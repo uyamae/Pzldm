@@ -98,6 +98,11 @@ namespace Pzldm
         public bool IsGameOver { get; set; }
 
         /// <summary>
+        /// プレイの進行フレームカウント
+        /// </summary>
+        public int PlayFrameCount { get; set; }
+
+        /// <summary>
         /// フィールドのたまを取得
         /// </summary>
         /// <param name="x"></param>
@@ -167,6 +172,7 @@ namespace Pzldm
         {
             UpdateInputEx();
             ProcessState();
+            ++PlayFrameCount;
         }
         /// <summary>
         /// フィールドを初期化
