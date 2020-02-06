@@ -82,7 +82,7 @@ namespace Pzldm
         public void InitTamaCache(PlayFieldSetting setting, Transform transform)
         {
             if (tamaCache != null) return;
-            var count = setting.columnsCount * setting.rowsCount;
+            var count = setting.columnsCount * setting.rowsCount + 4;
             tamaCache = new Stack<TamaData>(count);
             for (int i = 0; i < count; ++i)
             {
