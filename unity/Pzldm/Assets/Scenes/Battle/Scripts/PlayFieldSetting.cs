@@ -80,6 +80,15 @@ namespace Pzldm
         /// 操作たま設置時の待ち時間
         /// </summary>
         public int tamaPutWait;
+        
+        /// <summary>
+        /// たまが自由落下するフレーム数を更新するまでのカウント
+        /// </summary>
+        public int tamaFallFrameUpdateCount;
+        /// <summary>
+        /// たまが自由落下するフレーム数の限界値
+        /// </summary>
+        public int tamaFallFrameLimit;
 
         /// <summary>
         /// ゲームオーバー時のばらまき演出の速度最小値

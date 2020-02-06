@@ -9,11 +9,24 @@ namespace Pzldm
         /// <summary>
         /// たまが自由落下するフレーム数
         /// </summary>
-        private int TamaFallFrame { get; set; }
+        public int TamaFallFrame { get; private set; }
+        /// <summary>
+        /// たま生成数
+        /// </summary>
+        public int TamaGeneratedCount
+        {
+            get
+            {
+                return (tamaGenerator == null) ? 0: tamaGenerator.GeneratedCount;
+            }
+        }
         /// <summary>
         /// たまが自由落下するフレームのカウンター
         /// </summary>
         private int tamaFallFrameCount;
+        /// <summary>
+        /// たま操作開始時
+        /// </summary>
         private void StateControlTamaEnter()
         {
             // つぎのたまを操作たまにする
@@ -25,10 +38,15 @@ namespace Pzldm
             // つぎのたまを生成する
             GenerateNextTamaPair();
             // 連鎖数をリセット
-            chainCount = 0;
+            ChainCount = 0;
             // 自由落下カウンターをリセット
             tamaFallFrameCount = 0; // 最初はカウンターを0 にしておく
             //tamaFallFrameCount = TamaFallFrame;
+            // 自由落下速度更新
+            if ((TamaFallFrame > setting.tamaFallFrameLimit) && (setting.tamaFallFrameUpdateCount > 0) && (tamaGenerator.GeneratedCount % setting.tamaFallFrameUpdateCount == 0))
+            {
+                --TamaFallFrame;
+            }
         }
         private void StateControlTamaUpdate()
         {

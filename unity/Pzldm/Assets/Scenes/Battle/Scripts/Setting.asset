@@ -29,6 +29,8 @@ MonoBehaviour:
   keyRepeatSpanFrame: 3
   tamaFallFrame: 100
   tamaPutWait: 15
+  tamaFallFrameUpdateCount: 1
+  tamaFallFrameLimit: 10
   gameOverDirectionVelocityMin: {x: -0.5, y: -0.25}
   gameOverDirectionVelocityMax: {x: 0.5, y: 0.75}
   gameOverDirectionGravity: -0.05

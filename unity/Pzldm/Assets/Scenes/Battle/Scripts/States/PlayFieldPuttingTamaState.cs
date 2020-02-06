@@ -11,10 +11,6 @@ namespace Pzldm
         /// </summary>
         [SerializeField]
         private ChainCount chainCounter;
-        /// <summary>
-        /// 連鎖数
-        /// </summary>
-        private int chainCount;
 
         /// <summary>
         /// 設置されたたまの連結確認ワーク領域
@@ -116,8 +112,7 @@ namespace Pzldm
             if (CheckTamaRemoving())
             {
                 // 連鎖数カウントアップ
-                ++chainCount;
-                chainCounter?.StartDisplay(1, chainCount);
+                chainCounter?.StartDisplay(1, ChainCount);
 
                 ChangeState(PlayingState.RemovingTama);
             }

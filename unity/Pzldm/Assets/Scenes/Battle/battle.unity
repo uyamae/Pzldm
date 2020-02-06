@@ -1144,6 +1144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3c0bb67e0325049864907606ef5e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: 2
   frame1p: {fileID: 6866413575044490655}
   frame2p: {fileID: 1021431053}
   field1p: {fileID: 539943053}
@@ -1347,7 +1348,7 @@ PrefabInstance:
     - target: {fileID: 5174857837234542122, guid: 40c2e749db115f046842d937fffffde8,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40c2e749db115f046842d937fffffde8, type: 3}
@@ -6932,7 +6933,7 @@ PrefabInstance:
     - target: {fileID: 5174857837234542122, guid: 40c2e749db115f046842d937fffffde8,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40c2e749db115f046842d937fffffde8, type: 3}
