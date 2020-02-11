@@ -42,10 +42,6 @@ namespace Pzldm
         private StateMachine<StateType> stateMachine;
         uint bits;
         /// <summary>
-        /// デバッグ情報
-        /// </summary>
-        public ComInfoBehaviour ComInfo { get; set; }
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public AdvancedComPlayer()
