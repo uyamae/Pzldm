@@ -13,6 +13,8 @@ namespace Pzldm
         private Text mainText;
         [SerializeField]
         private Text subText;
+        [SerializeField]
+        private Text subPosText;
         /// <summary>
         /// ステート
         /// </summary>
@@ -55,6 +57,21 @@ namespace Pzldm
                 }
             }
         }
+        /// <summary>
+        /// サブたまの配置
+        /// </summary>
+        public string SubPos
+        {
+            get { return subPosText?.text; }
+            set
+            {
+                if ((subPosText != null) && (subPosText.text != value))
+                {
+                    subPosText.text = value;
+                }
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {

@@ -23,6 +23,10 @@ namespace Pzldm
             /// 状態終了時に呼び出される処理
             /// </summary>
             public System.Action Leave { get; set; }
+            /// <summary>
+            /// 次の状態を生成する
+            /// </summary>
+            public System.Func<T> NextState { get; set; }
         }
         private State[] states;
         /// <summary>
@@ -55,6 +59,24 @@ namespace Pzldm
             states[System.Convert.ToInt32(CurrentState)].Leave?.Invoke();
             CurrentState = state;
             states[System.Convert.ToInt32(state)].Enter?.Invoke();
+        }
+        // 次の状態に遷移
+        public void ChangeToNextState()
+        {
+            int index = System.Convert.ToInt32(CurrentState);
+            if (states[index]?.NextState != null)
+            {
+                ChangeState(states[index].NextState());
+            }
+            else 
+            {
+                ++index;
+                if (!System.Enum.IsDefined(typeof(T), index + 1))
+                {
+                    index = 0;
+                }
+                ChangeState((T)System.Enum.ToObject(typeof(T), index));
+            }
         }
         /// <summary>
         /// 状態更新
