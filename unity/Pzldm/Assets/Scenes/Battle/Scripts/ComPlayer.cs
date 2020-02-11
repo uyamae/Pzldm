@@ -15,6 +15,10 @@ namespace Pzldm
         /// </summary>
         public PlayField Opponent { get; set; }
         /// <summary>
+        /// デバッグ情報
+        /// </summary>
+        public ComInfoBehaviour ComInfo { get; set; }
+        /// <summary>
         /// 入力ビットフラグ生成
         /// </summary>
         /// <returns></returns>

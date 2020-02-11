@@ -122,6 +122,12 @@ namespace Pzldm
         private void Awake()
         {
             Instance = this;
+#if UNITY_EDITOR
+#else
+            UseComPlayer = false;
+            comInfo?.gameObject.SetActive(false);
+            debugGroup?.SetActive(false);
+#endif
         }
         /// <summary>
         /// 更新開始時
@@ -169,7 +175,9 @@ namespace Pzldm
             {
                 Self = playFields[1],
                 Opponent = playFields[0],
+#if UNITY_EDITOR
                 ComInfo = comInfo,
+#endif
             };
         }
         /// <summary>
