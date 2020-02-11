@@ -34,6 +34,8 @@ namespace Pzldm
         /// </summary>
         public PlayFieldSetting setting;
 
+        public int ColumnsCount { get { return setting.ColumnsCount; } }
+
         /// <summary>
         /// つぎのたま
         /// </summary>

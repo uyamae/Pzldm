@@ -22,5 +22,12 @@ namespace Pzldm
         {
             return 0;
         }
+        /// <summary>
+        /// 処理開始
+        /// </summary>
+        public virtual void Start()
+        {
+
+        }
     }
 }

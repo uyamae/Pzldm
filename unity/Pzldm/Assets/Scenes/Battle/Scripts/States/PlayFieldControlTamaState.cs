@@ -47,6 +47,8 @@ namespace Pzldm
             {
                 --TamaFallFrame;
             }
+            // ComPlayer リセット
+            ComPlayer?.Start();
         }
         private void StateControlTamaUpdate()
         {
