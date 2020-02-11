@@ -31,6 +31,10 @@ namespace Pzldm
         /// </summary>
         RemovingTama,
         /// <summary>
+        /// こうげきだま同期待ち
+        /// </summary>
+        SyncAttackTama,
+        /// <summary>
         /// こうげきだませり上げ
         /// </summary>
         LiftUpAttackTama,
@@ -112,6 +116,10 @@ namespace Pzldm
                     Enter = StateRemovingTamaEnter,
                     Update = StateRemovingTamaUpdate,
                     Leave = StateRemovingTamaLeave,
+                },
+                // こうげきだま同期待ち
+                new StateMachine<PlayingState>.State() {
+                    Update = StateSyncAttackUpdate,
                 },
                 // こうげきだませり上げ
                 new StateMachine<PlayingState>.State() {

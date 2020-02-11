@@ -55,6 +55,15 @@ namespace Pzldm
         private System.Random tamaRand;
 
         /// <summary>
+        /// 試合中にたまをいくつ生成したか
+        /// </summary>
+        private int generatedCount;
+        /// <summary>
+        /// 試合中にたまをいくつ生成したか
+        /// </summary>
+        public int GeneratedCount { get { return generatedCount; } }
+
+        /// <summary>
         /// スプライトをキャッシュ
         /// </summary>
         public void InitTamaSpriteCache(PlayFieldSetting setting)
@@ -82,7 +91,7 @@ namespace Pzldm
         public void InitTamaCache(PlayFieldSetting setting, Transform transform)
         {
             if (tamaCache != null) return;
-            var count = setting.columnsCount * setting.rowsCount;
+            var count = setting.columnsCount * setting.rowsCount + 4;
             tamaCache = new Stack<TamaData>(count);
             for (int i = 0; i < count; ++i)
             {
@@ -125,6 +134,17 @@ namespace Pzldm
             tamaRandomSeed = tamaRand.Next();
         }
         /// <summary>
+        /// 試合開始時の初期化
+        /// </summary>
+        public void InitOnStart()
+        {
+            // たま生成数リセット
+            generatedCount = 0;
+            // たま生成乱数リセット
+            ResetTamaRandom();
+        }
+
+        /// <summary>
         /// たまのペアを生成
         /// </summary>
         public void GenerateTamaPair(PlayFieldSetting setting, TamaData[] pair)
@@ -140,6 +160,8 @@ namespace Pzldm
             // たまのスプライトを設定する
             SetupTamaSprite(pair[0]);
             SetupTamaSprite(pair[1]);
+            // たま生成数カウント
+            ++generatedCount;
         }
         /// <summary>
         /// たまを１つ生成

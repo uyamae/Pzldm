@@ -11,10 +11,6 @@ namespace Pzldm
         /// </summary>
         [SerializeField]
         private ChainCount chainCounter;
-        /// <summary>
-        /// 連鎖数
-        /// </summary>
-        private int chainCount;
 
         /// <summary>
         /// 設置されたたまの連結確認ワーク領域
@@ -62,6 +58,26 @@ namespace Pzldm
 
         }
         /// <summary>
+        /// こうげきだま同期待ち更新
+        /// </summary>
+        private void StateSyncAttackUpdate()
+        {
+            // 同一フレームに連鎖が終了したとき
+            // 2P 側連鎖終了処理時には1P はつぎのたま操作に
+            // 遷移してしまうので１フレーム待つステート
+
+            // あいてのこうげきだまがあるならそちら
+            if (RecievedAttackCount > 0)
+            {
+                ChangeStateToAttackTama();
+            }
+            // 何もなければつぎのたま操作
+            else
+            {
+                ChangeStateAfterDropping();
+            }
+        }
+        /// <summary>
         /// たま落下中の開始処理
         /// </summary>
         private void StateDroppingTamaEnter()
@@ -96,8 +112,7 @@ namespace Pzldm
             if (CheckTamaRemoving())
             {
                 // 連鎖数カウントアップ
-                ++chainCount;
-                chainCounter?.StartDisplay(1, chainCount);
+                chainCounter?.StartDisplay(1, ChainCount);
 
                 ChangeState(PlayingState.RemovingTama);
             }
@@ -108,16 +123,8 @@ namespace Pzldm
                 {
                     BattleManager?.SendAttackTama(this);
                 }
-                // あいてのこうげきだまがあるならそちら
-                if (RecievedAttackCount > 0)
-                {
-                    ChangeStateToAttackTama();
-                }
-                // 何もなければつぎのたま操作
-                else
-                {
-                    ChangeStateAfterDropping();
-                }
+                // 同一フレームの相手のこうげきだま発生を待つ
+                ChangeState(PlayingState.SyncAttackTama);
             }
         }
         /// <summary>

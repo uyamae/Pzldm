@@ -85,6 +85,11 @@ namespace Pzldm
         /// </summary>
         [SerializeField]
         private GameObject debugGroup;
+        /// <summary>
+        /// COM 情報表示
+        /// </summary>
+        [SerializeField]
+        private ComInfoBehaviour comInfo;
 
         /// <summary>
         /// COM プレイヤーを使用するかどうか
@@ -159,10 +164,12 @@ namespace Pzldm
             stateMachine = new StateMachine<BattleState>(states);
             stateMachine.StartState(BattleState.Init);
             // COM 作成
-            comPlayer = new DefaultComPlayer()
+            //comPlayer = new DefaultComPlayer()
+            comPlayer = new AdvancedComPlayer()
             {
-                Self = playFields[0],
-                Opponent = playFields[1],
+                Self = playFields[1],
+                Opponent = playFields[0],
+                ComInfo = comInfo,
             };
         }
         /// <summary>

@@ -16,8 +16,8 @@ namespace Pzldm
         /// </summary>
         private void StateReadyEnter()
         {
-            // たま生成乱数リセット
-            tamaGenerator.ResetTamaRandom();
+            // たま生成初期化
+            tamaGenerator.InitOnStart();
             // つぎのたま生成
             GenerateNextTamaPair();
             // たま自由落下フレームをリセット
@@ -34,6 +34,8 @@ namespace Pzldm
             IsGameOver = false;
             // 開始できるかどうか
             IsReadyToStart = false;
+            // プレイのフレームカウントをリセット
+            PlayFrameCount = 0;
         }
         /// <summary>
         /// Ready 更新

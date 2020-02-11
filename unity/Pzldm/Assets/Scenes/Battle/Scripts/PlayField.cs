@@ -34,6 +34,8 @@ namespace Pzldm
         /// </summary>
         public PlayFieldSetting setting;
 
+        public int ColumnsCount { get { return setting.ColumnsCount; } }
+
         /// <summary>
         /// つぎのたま
         /// </summary>
@@ -96,6 +98,11 @@ namespace Pzldm
         /// ゲームオーバーフラグ
         /// </summary>
         public bool IsGameOver { get; set; }
+
+        /// <summary>
+        /// プレイの進行フレームカウント
+        /// </summary>
+        public int PlayFrameCount { get; set; }
 
         /// <summary>
         /// フィールドのたまを取得
@@ -167,6 +174,7 @@ namespace Pzldm
         {
             UpdateInputEx();
             ProcessState();
+            ++PlayFrameCount;
         }
         /// <summary>
         /// フィールドを初期化
